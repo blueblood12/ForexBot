@@ -9,7 +9,7 @@ from constants import TimeFrame, OrderType
 from candle import Candle, Candles
 from symbol import Symbol, Synthetic
 
-order = namedtuple('Order', ['type', 'time', 'new'], defaults=(None, 0, True))
+Entry = namedtuple('Entry', ['trend', 'current', 'type', 'time', 'new'], defaults=('notrend', 0, None, 0, True))
 
 
 class Analyzer:

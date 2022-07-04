@@ -9,7 +9,6 @@ from mqltrader import MqlTrader
 pairs = ['AUDCAD', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'CADCHF', 'CADJPY', 'CHFJPY','GBPCAD', 'EURUSD',
            'GBPAUD', 'GBPCHF', 'GBPJPY', 'GBPUSD','NZDCAD', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY']
 
-
 if not mt5.initialize():
     print("unable to initialize terminal")
     quit()
@@ -20,9 +19,7 @@ if not account.connected:
     print("Unable to connect to account")
     quit()
 
-trader = MqlTrader(account=account)
-
-symbols = [pairs, [trader for i in range(len(pairs))]]
+symbols = [pairs, [MqlTrader(account=account) for i in range(len(pairs))]]
 
 with ThreadPoolExecutor(max_workers=len(pairs)) as executor:
     executor.map(FingerTrap, *symbols)

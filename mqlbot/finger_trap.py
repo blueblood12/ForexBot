@@ -1,14 +1,14 @@
 import asyncio
 
 from mqltrader import MqlTrader
-from analyzer import Analyzer, order
+from analyzer import Analyzer, Entry
 from constants import TimeFrame, OrderType
 from candle import Candle, Candles
 
 
 class FingerTrap(Analyzer):
-    def __init__(self, symbol: str, trader: MqlTrader, periods: tuple[int, int] = (8, 34), trend_time_frame: TimeFrame = TimeFrame.M3,
-                 entry_time_frame: TimeFrame = TimeFrame.M2, trend: int = 5):
+    def __init__(self, symbol: str, trader: MqlTrader, periods: tuple[int, int] = (8, 34), trend_time_frame: TimeFrame = TimeFrame.M5,
+                 entry_time_frame: TimeFrame = TimeFrame.M2, trend: int = 2):
         self.fast_period, self.slow_period = periods
         self.trend_time_frame = trend_time_frame
         self.entry_time_frame = entry_time_frame
@@ -27,47 +27,55 @@ class FingerTrap(Analyzer):
 
         uptrend = all((s.ema < f.ema < f.mid) for f, s in zip(fast, slow))
         if uptrend:
-            return "uptrend"
+            return Entry(trend='uptrend')
 
         downtrend = all((s.ema > f.ema > f.mid) for f, s in zip(fast, slow))
         if downtrend:
-            return "downtrend"
+            return Entry(trend="downtrend")
 
-        return 'notrend'
+        return Entry(trend="notrend", current=fast[0].time)
 
-    async def check_entry(self) -> order:
+    async def check_entry(self) -> Entry:
         trend = await self.check_trend()
-        if trend == 'notrend':
-            return order(time=self.trend_time_frame.time)
+
+        if trend.trend == 'notrend':
+            if self.current == trend.current:
+                return Entry(new=False)
+            self.current = trend.current
+            return Entry(time=self.trend_time_frame.time)
 
         prices: Candles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
-        entry = prices[0]
+        entry_candle = prices[1]
 
-        if self.current == entry.time:
-            return order(new=False)
+        if self.current == entry_candle.time:
+            return Entry(new=False)
         else:
-            self.current = entry.time
+            self.current = entry_candle.time
 
-        if trend == 'uptrend' and entry.ema_crossover():
-            return order(time=self.entry_time_frame.time, type=OrderType.BUY)
+        if trend == 'uptrend' and entry_candle.ema_crossover():
+            return Entry(trend='uptrend', time=self.entry_time_frame.time, type=OrderType.BUY)
 
-        if trend == 'downtrend' and entry.ema_cross_under():
-            return order(time=self.entry_time_frame.time, type=OrderType.SELL)
+        if trend == 'downtrend' and entry_candle.ema_cross_under():
+            return Entry(trend='downtrend', time=self.entry_time_frame.time, type=OrderType.SELL)
 
-        return order(time=self.entry_time_frame.time)
+        return Entry(time=self.entry_time_frame.time)
 
     async def trade(self):
-        print(self.symbol, '\n\r')
         while True:
             try:
                 entry = await self.check_entry()
+                print(self.symbol, entry.trend, '\n')
                 if not entry.new:
+                    await asyncio.sleep(0.5)
                     continue
+
                 if not entry.type:
                     await self.sleep(entry.time)
-                asyncio.run_coroutine_threadsafe(self.trader.place_trade(symbol=self.symbol, order=entry.type), asyncio.get_event_loop())
-                await self.sleep(self.entry_time_frame.time)
+                    continue
+
+                await self.trader.place_trade(symbol=self.symbol, order=entry.type)
+                await self.sleep(entry.time)
             except Exception as err:
-                print(self.symbol, err, "\n\r")
+                print(self.symbol, err, "\n")
                 await self.sleep(self.entry_time_frame.time)
                 continue

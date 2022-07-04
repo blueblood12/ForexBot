@@ -1,3 +1,5 @@
+import asyncio
+
 from account import Account
 from request import MqlTradeRequest
 from constants import OrderType
@@ -5,6 +7,7 @@ from symbol import Symbol
 
 
 class MqlTrader:
+
     def __init__(self, account: Account):
         self.account = account
 
@@ -24,8 +27,12 @@ class MqlTrader:
             request = await self.create_request(symbol=symbol, order=order)
             res = await request.check_order()
             if res.retcode != 0:
-                print(res.comment, symbol, '\n\r')
-                return
+                print(res.comment, symbol, '\n')
+                return res
             res = await request.send_order()
+            if res.retcode != 10009:
+                print(res.retcode, res.comment, symbol, '\n')
+            print(symbol, res.comment, '\n')
+            return res
         except Exception as err:
-            print(err, symbol, '\n\r')
+            print(err, symbol, '\n')
