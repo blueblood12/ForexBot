@@ -73,7 +73,7 @@ class FingerTrap(Analyzer):
                     await self.sleep(entry.time)
                     continue
 
-                await self.trader.place_trade(symbol=self.symbol, order=entry.type)
+                await self.trader.place_trade(symbol=self.symbol, order=OrderType.BUY)
                 await self.sleep(entry.time)
             except Exception as err:
                 print(self.symbol, err, "\n")

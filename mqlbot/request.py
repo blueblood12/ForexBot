@@ -28,16 +28,16 @@ class MqlTradeRequest(Base):
     comment: str
     magic: int
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self.update_dict(action=self.action, type_time=self.type_time, type_filling=self.type_filling)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.set_attributes(action=self.action, type_time=self.type_time, type_filling=self.type_filling)
 
     async def check_order(self) -> MqlTradeCheck:
-        result = await asyncio.to_thread(mt5.order_check, self.dict())
+        result = await asyncio.to_thread(mt5.order_check, self.dict)
         return MqlTradeCheck(**result._asdict())
 
     async def send_order(self) -> MqlTradeResult:
-        result = await asyncio.to_thread(mt5.order_send, self.dict())
+        result = await asyncio.to_thread(mt5.order_send, self.dict)
         return MqlTradeResult(**result._asdict())
 
     async def calc_margin(self) -> float | None:
@@ -57,5 +57,3 @@ class MqlTradeRequest(Base):
         else:
             self.sl, self.tp = tick.bid + sl, tick.bid - tp
             self.price = tick.bid
-
-        self.update_attributes(sl=self.sl, tp=self.tp, price=self.price)

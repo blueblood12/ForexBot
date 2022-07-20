@@ -41,8 +41,8 @@ class Symbol(Base):
     currency_base: str
     currency_profit: str  # quote currency
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.symbol_select()
         self.symbol_info()
 
@@ -59,8 +59,7 @@ class Symbol(Base):
 
     def symbol_info(self):
         info = mt5.symbol_info(self.name)._asdict()
-        # info['pip'] = info['point'] * 10
-        self.update_attributes(**info)
+        self.set_attributes(**info)
 
     async def rates_from_pos(self, *, time_frame: TimeFrame, count: int = 500, start_position: int = 0) -> DataFrame:
         rates = await asyncio.to_thread(mt5.copy_rates_from_pos, self.name, time_frame, start_position, count)
@@ -92,11 +91,3 @@ class Synthetic(Symbol):
     async def levels(self, *, volume: float, amount: float, risk_to_reward: float):
         volume = volume if volume >= self.volume_min else self.volume_min
         return amount/volume, (amount/volume) * risk_to_reward, volume
-
-# async def limits(self, *, volume: float, amount: float, risk_to_reward: float):
-#     volume = volume if volume >= self.volume_min else self.volume_min
-#     pip_value = volume * self.pip * 100000
-#     amount = amount if self.currency_profit == "USD" else await self.dollar_to_currency(amount)
-#     pips = (amount / pip_value) * self.pip
-#     stop_loss, take_profit = pips, pips * risk_to_reward
-#     return stop_loss, take_profit, volume

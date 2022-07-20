@@ -30,16 +30,15 @@ class Account(Base):
     connected: bool
     market: str = 'financial'
 
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        self.update_dict(risk=self.risk, volume=self.volume, risk_to_reward=self.risk_to_reward)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.connected = mt5.login(login=self.login, password=self.password, server=self.server)
         if self.connected:
             self.refresh_account()
 
     def refresh_account(self):
         account = mt5.account_info()._asdict()
-        self.update_attributes(**account)
+        self.set_attributes(**account)
 
     async def get_details(self):
         await asyncio.to_thread(self.refresh_account)

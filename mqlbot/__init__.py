@@ -1,19 +1,20 @@
+from typing import Iterable, Mapping
 
 
 class Base:
-    def __init__(self, **kw):
-        self.__kw = kw
-        self.update_attributes(**kw)
+    def __init__(self, **kwargs):
+        self.set_attributes(**kwargs)
 
-    def update_attributes(self, **attributes):
-        [setattr(self, i, j) for i, j in attributes.items()]
-        self.update_dict(**attributes)
+    def set_attributes(self, **kwargs):
+        [setattr(self, i, j) for i, j in kwargs.items()]
 
-    def update_dict(self, **items):
-        self.__kw.update(**items)
-
+    @property
     def dict(self):
-        return self.__kw
+        return self.__dict__
+
+    @dict.setter
+    def dict(self, value: Mapping | Iterable[Iterable]):
+        self.dict.update(value)
 
 
 # class Order(Base):

@@ -1,12 +1,12 @@
 from concurrent.futures import ThreadPoolExecutor
 import asyncio
-import pprint
+from pprint import pprint as pp
 
 import MetaTrader5 as mt5
 
 from account import Account
 from symbol import Symbol, Synthetic
-from constants import TimeFrame
+from constants import TimeFrame as tf
 
 if not mt5.initialize():
     print("Unable to initialize terminal")
@@ -21,11 +21,10 @@ if not account.connected:
 
 async def main():
     sym = Synthetic(name='Volatility 100 (1s) Index')
-    pprint.pprint(sym.dict(), indent=5)
-    # await sym.limits(volume=0.03, amount=300, risk_to_reward=2)
-    # print(sym.ask, sym.pip)
-    # rates = await sym.rates_from_pos(time_frame=TimeFrame.M5, count=50,)
-    # pprint.pprint(rates)
+    df = await sym.rates_from_pos(time_frame=tf.H1)
+    ti = df['time']
+    pp(list(ti.items()))
+    print(1658347200 in (i[1] for i in ti.items()))
 
 
 asyncio.run(main())

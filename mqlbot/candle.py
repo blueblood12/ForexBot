@@ -48,6 +48,9 @@ class Candles:
     def __len__(self):
         return self.__data.shape[0]
 
+    def __contains__(self, item: Candle):
+        return item.time in [i[0] for i in self.__data['time'].items()]
+
     def __getitem__(self, index) -> Union[Candle, "Candles"]:
         if isinstance(index, slice):
             cls = self.__class__
