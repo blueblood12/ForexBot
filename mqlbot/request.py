@@ -3,7 +3,7 @@ from datetime import datetime
 
 import MetaTrader5 as mt5
 
-from mqlbot import Base
+from main import Base
 from constants import TradeAction, OrderType, OrderTime, OrderFilling
 from result import MqlTradeResult, MqlTradeCheck
 from symbol import Symbol

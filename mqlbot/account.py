@@ -3,7 +3,7 @@ from collections import namedtuple
 
 import MetaTrader5 as mt5
 
-from mqlbot import Base
+from main import Base
 
 
 order_details = namedtuple('Details', ['volume', 'amount', 'risk_to_reward'])

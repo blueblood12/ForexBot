@@ -4,7 +4,7 @@ from collections import namedtuple
 import MetaTrader5 as mt5
 from pandas import DataFrame
 
-from mqlbot import Base
+from main import Base
 from constants import TimeFrame
 
 tick = namedtuple('SymbolTick', ['time', 'bid', 'ask', 'last', 'volume', 'time_msc', 'flags', 'volume_real'])

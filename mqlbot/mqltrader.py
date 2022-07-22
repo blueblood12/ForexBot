@@ -1,5 +1,3 @@
-import asyncio
-
 from account import Account
 from request import MqlTradeRequest
 from constants import OrderType

@@ -2,7 +2,7 @@ from typing import Union
 
 from pandas import DataFrame
 
-from mqlbot import Base
+from main import Base
 
 
 class Candle(Base):

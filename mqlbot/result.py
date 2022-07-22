@@ -1,4 +1,4 @@
-from mqlbot import Base
+from main import Base
 
 
 class MqlTradeResult(Base):
