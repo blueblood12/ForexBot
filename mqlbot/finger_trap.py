@@ -1,20 +1,19 @@
 import asyncio
 
 from mqltrader import MqlTrader
-from analyzer import Analyzer, Entry
+from strategy import Strategy, Entry
 from constants import TimeFrame, OrderType
 from candle import Candle, Candles
 
 
-class FingerTrap(Analyzer):
-    def __init__(self, symbol: str, trader: MqlTrader, periods: tuple[int, int] = (8, 34), trend_time_frame: TimeFrame = TimeFrame.M5,
+class FingerTrap(Strategy):
+    def __init__(self, *, symbol: str, trader: MqlTrader, periods: tuple[int, int] = (8, 34), trend_time_frame: TimeFrame = TimeFrame.M5,
                  entry_time_frame: TimeFrame = TimeFrame.M2, trend: int = 2):
         self.fast_period, self.slow_period = periods
         self.trend_time_frame = trend_time_frame
         self.entry_time_frame = entry_time_frame
         self.trend = trend
         super().__init__(symbol=symbol, trader=trader)
-        asyncio.run(self.trade())
 
     async def check_trend(self):
         fast: Candles
@@ -73,7 +72,7 @@ class FingerTrap(Analyzer):
                     await self.sleep(entry.time)
                     continue
 
-                await self.trader.place_trade(symbol=self.symbol, order=OrderType.BUY)
+                await self.trader.place_trade(symbol=self.symbol, order=entry.type)
                 await self.sleep(entry.time)
             except Exception as err:
                 print(self.symbol, err, "\n")

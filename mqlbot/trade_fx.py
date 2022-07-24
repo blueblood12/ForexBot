@@ -1,10 +1,9 @@
-from concurrent.futures import ThreadPoolExecutor
-
 import MetaTrader5 as mt5
 
 from finger_trap import FingerTrap
 from account import Account
 from mqltrader import MqlTrader
+from executor import Executor
 
 pairs = ['AUDCAD', 'AUDJPY', 'AUDNZD', 'AUDUSD', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'CADCHF', 'CADJPY', 'CHFJPY','GBPCAD', 'EURUSD',
            'GBPAUD', 'GBPCHF', 'GBPJPY', 'GBPUSD','NZDCAD', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY']
@@ -19,7 +18,9 @@ if not account.connected:
     print("Unable to connect to account")
     quit()
 
-symbols = [pairs, [MqlTrader(account=account) for i in range(len(pairs))]]
+trader = MqlTrader(account=account)
 
-with ThreadPoolExecutor(max_workers=len(pairs)) as executor:
-    executor.map(FingerTrap, *symbols)
+symbols = [{"symbol": pair, "trader": trader} for pair in pairs]
+exe = Executor()
+exe.add_workers(strategy=FingerTrap, kwargs=symbols)
+exe.execute()

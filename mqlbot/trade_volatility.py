@@ -1,10 +1,9 @@
-from concurrent.futures import ThreadPoolExecutor
-
 import MetaTrader5 as mt5
 
 from finger_trap import FingerTrap
 from account import Account
 from mqltrader import MqlTrader
+from executor import Executor
 
 indices = ['Volatility 10 Index', 'Volatility 25 Index', 'Volatility 50 Index', 'Volatility 75 Index', 'Volatility 100 Index',
            'Volatility 10 (1s) Index', 'Volatility 25 (1s) Index', 'Volatility 50 (1s) Index', 'Volatility 75 (1s) Index',
@@ -22,7 +21,7 @@ if not account.connected:
 
 trader = MqlTrader(account=account)
 
-symbols = [indices, [trader for i in range(len(indices))]]
-
-with ThreadPoolExecutor(max_workers=len(indices)) as executor:
-    executor.map(FingerTrap, *symbols)
+symbols = [{"symbol": index, "trader": trader} for index in indices]
+exe = Executor()
+exe.add_workers(strategy=FingerTrap, kwargs=symbols)
+exe.execute()

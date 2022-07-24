@@ -1,21 +1,28 @@
 import asyncio
 import time
-from collections import namedtuple
+from dataclasses import dataclass
+from typing import Literal
+from abc import abstractmethod, ABC
 
 import pandas_ta as ta
 
 from mqltrader import MqlTrader
 from constants import TimeFrame, OrderType
-from candle import Candle, Candles
+from candle import Candles
 from symbol import Symbol, Synthetic
 
-Entry = namedtuple('Entry', ['trend', 'current', 'type', 'time', 'new'], defaults=('notrend', 0, None, 0, True))
+
+@dataclass
+class Entry:
+    time: float = 0
+    trend: Literal["notrend", "uptrend", "downtrend"] = "notrend"
+    current: float = 0
+    new: bool = True
+    type: OrderType | None = None
 
 
-class Analyzer:
-    count: int
-
-    def __init__(self, symbol: str, trader: MqlTrader):
+class Strategy(ABC):
+    def __init__(self, *, symbol: str, trader: MqlTrader):
         self.trader = trader
         self.symbol = Symbol(name=symbol) if self.trader.account.market == 'financial' else Synthetic(name=symbol)
         self.current = 0
@@ -28,5 +35,9 @@ class Analyzer:
         return Candles(data=data)
 
     @staticmethod
-    async def sleep(secs: int):
+    async def sleep(secs: float):
         await asyncio.sleep(secs - (time.time() % secs) + 1)
+
+    @abstractmethod
+    async def trade(self):
+        """trade"""
