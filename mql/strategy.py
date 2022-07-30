@@ -5,11 +5,11 @@ from typing import Literal
 from abc import abstractmethod, ABC
 
 import pandas_ta as ta
+from pandas import DataFrame
 
-from mqltrader import MqlTrader
-from constants import TimeFrame, OrderType
-from candle import Candles
-from symbol import Symbol, Synthetic
+from .constants import TimeFrame, OrderType
+from .candle import Candles, Candle
+from .symbol import Symbol
 
 
 @dataclass
@@ -22,17 +22,20 @@ class Entry:
 
 
 class Strategy(ABC):
-    def __init__(self, *, symbol: str, trader: MqlTrader):
-        self.trader = trader
-        self.symbol = Symbol(name=symbol) if self.trader.account.market == 'financial' else Synthetic(name=symbol)
+    Candle = Candle
+
+    def __init__(self, *, symbol: Symbol):
+        self.symbol = symbol
         self.current = 0
 
     async def get_ema(self, *, time_frame: TimeFrame, period: int) -> Candles:
-        data = await self.symbol.rates_from_pos(time_frame=time_frame)
+        data: DataFrame = await self.symbol.rates_from_pos(time_frame=time_frame)
         await asyncio.to_thread(data.ta.ema, length=period, append=True)
-        name = f"EMA_{period}"
-        data = data.rename(columns={name: 'ema'})
-        return Candles(data=data)
+        data.rename(columns={f"EMA_{period}": 'ema'}, inplace=True)
+        return Candles(data=data, candle=self.Candle)
+
+    def set_params(self, **params):
+        [setattr(self, key, value) for key, value in params.items()]
 
     @staticmethod
     async def sleep(secs: float):

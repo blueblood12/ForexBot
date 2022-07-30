@@ -1,13 +1,10 @@
 import asyncio
-from collections import namedtuple
 
 import MetaTrader5 as mt5
 from pandas import DataFrame
 
-from main import Base
-from constants import TimeFrame
-
-tick = namedtuple('SymbolTick', ['time', 'bid', 'ask', 'last', 'volume', 'time_msc', 'flags', 'volume_real'])
+from . import Base
+from .constants import TimeFrame
 
 dollar_pairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY']
 
@@ -37,29 +34,41 @@ class Symbol(Base):
     digits: int
     spread: float
     visible: bool
-    select: bool
+    selected: bool
     currency_base: str
     currency_profit: str  # quote currency
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.symbol_select()
-        self.symbol_info()
 
     def __repr__(self):
         return f"{self.name}"
 
-    @property
-    async def tick(self) -> tick:
-        tick_ = await Symbol.get_tick(self.name)
-        return tick(**tick_._asdict())
+    def __eq__(self, other: "Symbol"):
+        return self.name == other.name
 
-    def symbol_select(self):
-        self.visible = self.select = mt5.symbol_select(self.name, True)
+    def __lt__(self, other: "Symbol"):
+        return self.name > other.name
 
-    def symbol_info(self):
-        info = mt5.symbol_info(self.name)._asdict()
-        self.set_attributes(**info)
+    def __hash__(self):
+        return hash(self.name)
+
+    async def tick(self):
+        tick = await asyncio.to_thread(mt5.symbol_info_tick, self.name)
+        self.set_attributes(**tick._asdict())
+
+    async def select(self):
+        state = await asyncio.to_thread(mt5.symbol_select, self.name, True)
+        self.visible = self.selected = state
+
+    async def info(self):
+        info = await asyncio.to_thread(mt5.symbol_info, self.name)
+        if info:
+            self.set_attributes(**info._asdict())
+
+    async def init(self):
+        await self.select()
+        await self.info()
 
     async def rates_from_pos(self, *, time_frame: TimeFrame, count: int = 500, start_position: int = 0) -> DataFrame:
         rates = await asyncio.to_thread(mt5.copy_rates_from_pos, self.name, time_frame, start_position, count)
@@ -75,19 +84,18 @@ class Symbol(Base):
 
     async def dollar_to_currency(self, amount: float) -> float:
         if (symbol := f"{self.currency_profit}USD") in dollar_pairs:
-            tick_ = await Symbol.get_tick(symbol)
-            return amount / tick_.ask
-        tick_ = await Symbol.get_tick(f"USD{self.currency_profit}")
-        return amount * tick_.ask
+            tick = await Symbol.get_tick(symbol)
+            return amount / tick.ask
+        tick = await Symbol.get_tick(f"USD{self.currency_profit}")
+        return amount * tick.ask
 
     @classmethod
     async def get_tick(cls, name):
-        tick_ = await asyncio.to_thread(mt5.symbol_info_tick, name)
-        return tick(**tick_._asdict())
+        return await asyncio.to_thread(mt5.symbol_info_tick, name)
 
 
 class Synthetic(Symbol):
 
     async def levels(self, *, volume: float, amount: float, risk_to_reward: float):
         volume = volume if volume >= self.volume_min else self.volume_min
-        return amount/volume, (amount/volume) * risk_to_reward, volume
+        return amount / volume, (amount / volume) * risk_to_reward, volume

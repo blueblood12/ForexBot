@@ -2,7 +2,7 @@ from typing import Union
 
 from pandas import DataFrame
 
-from main import Base
+from . import Base
 
 
 class Candle(Base):
@@ -27,23 +27,16 @@ class Candle(Base):
         return self.open > self.close
 
     def is_hanging_man(self, ratio=1.5):
-        return max((self.open-self.low), (self.high-self.close)) / (self.close-self.open) >= ratio
+        return max((self.open - self.low), (self.high - self.close)) / (self.close - self.open) >= ratio
 
     def is_bullish_hammer(self, ratio=1.5):
-        return max((self.close-self.low), (self.high-self.open)) / (self.open-self.close) >= ratio
-
-    def ema_crossover(self):
-        # return self.open > self.ema > self.close
-        return self.open < self.ema < self.close
-
-    def ema_cross_under(self):
-        # return self.open < self.ema < self.close
-        return self.open > self.ema > self.close
+        return max((self.close - self.low), (self.high - self.open)) / (self.open - self.close) >= ratio
 
 
 class Candles:
-    def __init__(self, *, data: DataFrame):
+    def __init__(self, *, data: DataFrame, candle=Candle):
         self.__data = data
+        self.Candle = candle
 
     def __len__(self):
         return self.__data.shape[0]
@@ -51,17 +44,17 @@ class Candles:
     def __contains__(self, item: Candle):
         return item.time in [i[0] for i in self.__data['time'].items()]
 
-    def __getitem__(self, index) -> Union[Candle, "Candles"]:
+    def __getitem__(self, index) -> Union[type(Candle), "Candles"]:
         if isinstance(index, slice):
             cls = self.__class__
             data = self.__data.loc[index]
-            return cls(data=data)
+            return cls(data=data, candle=self.Candle)
 
         item = self.__data.iloc[index]
-        return Candle(**item)
+        return self.Candle(**item)
 
     def __iter__(self):
-        return (Candle(**row._asdict()) for row in self.__data.itertuples(index=False))
+        return (self.Candle(**row._asdict()) for row in self.__data.itertuples(index=False))
 
     @property
     def data(self):

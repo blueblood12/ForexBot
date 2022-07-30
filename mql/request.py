@@ -3,10 +3,9 @@ from datetime import datetime
 
 import MetaTrader5 as mt5
 
-from main import Base
-from constants import TradeAction, OrderType, OrderTime, OrderFilling
-from result import MqlTradeResult, MqlTradeCheck
-from symbol import Symbol
+from . import Base
+from .constants import TradeAction, OrderType, OrderTime, OrderFilling
+from .result import MqlTradeResult, MqlTradeCheck
 
 
 class MqlTradeRequest(Base):
@@ -45,15 +44,3 @@ class MqlTradeRequest(Base):
 
     async def calc_profit(self) -> float | None:
         return await asyncio.to_thread(mt5.order_calc_profit, self.type, self.symbol, self.volume, self.price, self.tp)
-
-    async def get_price_limits(self, limits: tuple[float, float]):
-
-        sl, tp = limits
-        tick = await Symbol.get_tick(self.symbol)
-
-        if self.type == OrderType.BUY:
-            self.sl, self.tp = tick.ask - sl, tick.ask + tp
-            self.price = tick.ask
-        else:
-            self.sl, self.tp = tick.bid + sl, tick.bid - tp
-            self.price = tick.bid

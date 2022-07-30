@@ -1,4 +1,4 @@
-from main import Base
+from . import Base
 
 
 class MqlTradeResult(Base):
