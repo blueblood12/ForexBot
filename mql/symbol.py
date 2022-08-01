@@ -72,7 +72,7 @@ class Symbol(Base):
 
     async def rates_from_pos(self, *, time_frame: TimeFrame, count: int = 500, start_position: int = 0) -> DataFrame:
         rates = await asyncio.to_thread(mt5.copy_rates_from_pos, self.name, time_frame, start_position, count)
-        return DataFrame(rates[::-1])
+        return DataFrame(rates)
 
     async def levels(self, *, volume: float, amount: float, risk_to_reward: float):
         volume = volume if volume >= self.volume_min else self.volume_min

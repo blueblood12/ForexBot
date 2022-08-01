@@ -25,10 +25,10 @@ class Account(Base):
     leverage: float
     profit: float
     point: float
-    volume: float = 0.03   # 3 micro lots
+    volume: float = 0.1
     equity: float
     margin: float
-    risk: float = 0.03    # 3 percent
+    risk: float = 0.05
     risk_to_reward: float = 2
     margin_level: float
     margin_free: float

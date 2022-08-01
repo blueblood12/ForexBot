@@ -17,21 +17,9 @@ class MqlTrader(ABC):
     async def create_request(self, *args, **kwargs):
         """"""""
 
-    async def place_trade(self, order: OrderType):
-        try:
-            await self.create_request(order=order)
-            res = await self.request.check_order()
-
-            if res.retcode != 0:
-                print(res.comment, self.symbol, '\n')
-                return res
-            res = await self.request.send_order()
-            if res.retcode != 10009:
-                print(res.retcode, res.comment, self.symbol, '\n')
-            print(self.symbol, res.comment, '\n')
-            return res
-        except Exception as err:
-            print(err, self.symbol, '\n')
+    @abstractmethod
+    async def place_trade(self, *args, **kwargs):
+        """"""
 
 
 class DealTrader(MqlTrader):
@@ -51,3 +39,24 @@ class DealTrader(MqlTrader):
         else:
             self.request.sl, self.request.tp = self.symbol.bid + sl, self.symbol.bid - tp
             self.request.price = self.symbol.bid
+
+    async def place_trade(self, order: OrderType, params: dict = None):
+        try:
+            await self.create_request(order=order)
+
+            res = await self.request.check_order()
+            if res.retcode != 0:
+                print(res.comment, self.symbol, '\n')
+                return
+
+            res = await self.request.send_order()
+            if res.retcode != 10009:
+                print(res.retcode, res.comment, self.symbol, '\n')
+                return
+
+            self.request.price = res.price
+            profit = await self.request.calc_profit()
+            await res.record_trade(action=str(self.request.action), type=str(self.request.type), profit=profit, **params)
+            print(self.symbol, res.comment, '\n')
+        except Exception as err:
+            print(err, self.symbol, '\n')
