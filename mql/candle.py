@@ -6,6 +6,7 @@ from . import Base
 
 
 class Candle(Base):
+    Index: int
     time: int
     open: float
     high: float
@@ -17,8 +18,13 @@ class Candle(Base):
     ema: float
 
     def __repr__(self):
-        # kwargs = [f"{i}={k}" for i, k in self.__dict__.items()]
-        return f"{self.__class__!r}(open={self.open}, ema={self.ema}, close={self.ema})"
+        return f"{self.__class__.__name__}" + '(' + ', '.join(f"{i}={{{i}}}" for i in self.__dict__.keys()).format(**self.__dict__) + ')'
+
+    def __lt__(self, other: 'Candle'):
+        return self.Index < other.Index
+
+    def __hash__(self):
+        return hash(self.time)
 
     @property
     def mid(self):
@@ -46,19 +52,35 @@ class Candles:
         return self.__data.shape[0]
 
     def __contains__(self, item: Candle):
-        return item.time in [i[0] for i in self.__data['time'].items()]
+        return item.time == self[item.Index].time
 
     def __getitem__(self, index) -> Union[type(Candle), "Candles"]:
         if isinstance(index, slice):
             cls = self.__class__
             data = self.__data.iloc[index]
-            return cls(data=data, candle=self.Candle)
+            return cls(data=data.iloc[::-1], candle=self.Candle)
 
         item = self.__data.iloc[index]
-        return self.Candle(**item)
+        return self.Candle(Index=index, **item)
 
     def __iter__(self):
-        return (self.Candle(**row._asdict()) for row in self.__data.itertuples(index=False))
+        return (self.Candle(**row._asdict()) for row in self.__data.itertuples())
+
+    def get_swing_high(self) -> type(Candle):
+        for candle in self[1:-1]:
+            if self.is_swing_high(candle):
+                return candle
+
+    def get_swing_low(self) -> type(Candle):
+        for candle in self[1:-1]:
+            if self.is_swing_low(candle):
+                return candle
+
+    def is_swing_high(self, candle: Candle):
+        return self[candle.Index - 1].high < candle.high > self[candle.Index + 1].high
+
+    def is_swing_low(self, candle: Candle):
+        return self[candle.Index - 1].low > candle.low < self[candle.Index + 1].low
 
     @property
     def data(self):

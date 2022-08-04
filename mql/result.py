@@ -6,6 +6,7 @@ class MqlTradeResult(Base):
     retcode: int
     deal: int
     order: int
+    position: int
     volume: float
     price: str
     bid: float

@@ -26,7 +26,6 @@ class Market(ABC):
         self.instruments.update(symbols)
 
     async def init(self):
-        # init = lambda path: mt5.initialize(path) if self.path else mt5.initialize
         if await asyncio.to_thread(mt5.initialize):
             self.connected = await self.account.account_login()
             if self.connected:
@@ -34,4 +33,3 @@ class Market(ABC):
                 return self.connected
             return False
         return False
-

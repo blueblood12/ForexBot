@@ -19,20 +19,22 @@ class Entry:
     current: float = 0
     new: bool = True
     type: OrderType | None = None
+    points: float = 0
 
 
 class Strategy(ABC):
-    Candle = Candle
+    Candle: type(Candle) = Candle
+    Candles: type(Candles) = Candles
 
     def __init__(self, *, symbol: Symbol):
         self.symbol = symbol
         self.current = 0
 
-    async def get_ema(self, *, time_frame: TimeFrame, period: int) -> Candles:
+    async def get_ema(self, *, time_frame: TimeFrame, period: int) -> type(Candles):
         data: DataFrame = await self.symbol.rates_from_pos(time_frame=time_frame)
         await asyncio.to_thread(data.ta.ema, length=period, append=True)
         data.rename(columns={f"EMA_{period}": 'ema'}, inplace=True)
-        return Candles(data=data, candle=self.Candle)
+        return self.Candles(data=data, candle=self.Candle)
 
     def set_params(self, **params):
         [setattr(self, key, value) for key, value in params.items()]

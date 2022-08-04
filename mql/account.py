@@ -25,7 +25,8 @@ class Account(Base):
     leverage: float
     profit: float
     point: float
-    volume: float = 0.1
+    volume: float = 0
+    amount: float = 0
     equity: float
     margin: float
     risk: float = 0.05
@@ -40,9 +41,9 @@ class Account(Base):
 
     async def refresh_account(self):
         account = await asyncio.to_thread(mt5.account_info)
-        self.set_attributes(**account._asdict())
+        self.set_attributes(amount=self.amount, **account._asdict())
 
-    async def get_ramm(self) -> RAMM:
+    async def compute_ramm(self) -> RAMM:
         await self.refresh_account()
         return RAMM(self.volume, self.equity*self.risk, self.risk_to_reward)
 

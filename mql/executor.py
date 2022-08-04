@@ -8,7 +8,6 @@ from mql.strategy import Strategy
 class Executor:
     def __init__(self):
         self.workers: list[Strategy] = []
-        # self.market = market
 
     def add_workers(self, strategies: Sequence[Strategy]):
         self.workers.extend(strategies)

@@ -4,6 +4,9 @@ from typing import Sequence, Mapping
 from mql.executor import Executor
 from mql.account import Account
 from strategies.finger_trap import FingerTrap, Strategy
+from strategies.finger_trap_scalper import FingerTrapScalper
+from strategies.finger_trap_ebere import FingerTrapEbere
+
 from markets import Forex
 
 account = Account(login=5050656, password="nwa0#anaEze", server="Deriv-Demo")
@@ -45,7 +48,7 @@ class Bot:
     def create_strategy(self, strategy: type(Strategy), symbol: str, **kwargs):
         symbol = self.select_instrument(name=symbol)
         if symbol:
-            strategy = strategy(symbol=symbol, account=self.market.account)
+            strategy = strategy(symbol=symbol)
             strategy.set_params(**kwargs)
             self.add_strategy(strategy)
 
@@ -69,5 +72,9 @@ class Bot:
 
 mart = Forex(account=account)
 bot = Bot(market=mart)
+bot.add_all_default(FingerTrapEbere)
 bot.add_all_default(FingerTrap)
+scalpers = ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD"]
+params = [{} for i in scalpers]
+bot.add_many(FingerTrapScalper, scalpers, params)
 bot.execute()

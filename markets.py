@@ -4,7 +4,7 @@ from mql.market import Market, Account
 
 class Forex(Market):
     symbols = {'AUDCAD', 'AUDJPY' 'AUDNZD', 'AUDUSD', 'EURAUD', 'EURCAD', 'EURCHF', 'EURGBP', 'EURJPY', 'CADCHF', 'CADJPY', 'CHFJPY', 'GBPCAD',
-               'EURUSD', 'GBPAUD', 'GBPCHF', 'GBPJPY', 'GBPUSD', 'NZDCAD', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY'}
+                'EURUSD', 'GBPAUD', 'GBPCHF', 'GBPJPY', 'GBPUSD', 'NZDCAD', 'NZDJPY', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY'}
 
     def __init__(self, *, account: Account):
         super().__init__(account=account, symbol=Symbol)

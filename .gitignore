@@ -3,3 +3,4 @@ __pycache__/
 venv/
 *.exe
 *.rar
+scrap*.py

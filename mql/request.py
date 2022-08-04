@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime
 
 import MetaTrader5 as mt5
 
@@ -21,7 +20,7 @@ class MqlTradeRequest(Base):
     stop_limit: float
     type_time: OrderTime = OrderTime.DAY
     type_filling: OrderFilling = OrderFilling.FOK
-    expiration: datetime
+    expiration: int
     position: int
     position_by: int
     comment: str

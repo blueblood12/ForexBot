@@ -3,7 +3,12 @@ from enum import IntEnum
 import MetaTrader5 as mt5
 
 
-class TradeAction(IntEnum):
+class Repr:
+    def __str__(self):
+        return self.__dict__['_name_']
+
+
+class TradeAction(Repr, IntEnum):
     DEAL = mt5.TRADE_ACTION_DEAL
     PENDING = mt5.TRADE_ACTION_PENDING
     SLTP = mt5.TRADE_ACTION_SLTP
@@ -12,20 +17,20 @@ class TradeAction(IntEnum):
     CLOSE = mt5.TRADE_ACTION_CLOSE_BY
 
 
-class OrderFilling(IntEnum):
+class OrderFilling(Repr, IntEnum):
     FOK = mt5.ORDER_FILLING_FOK
     IOC = mt5.ORDER_FILLING_IOC
     RETURN = mt5.ORDER_FILLING_RETURN
 
 
-class OrderTime(IntEnum):
+class OrderTime(Repr, IntEnum):
     GTC = mt5.ORDER_TIME_GTC
     DAY = mt5.ORDER_TIME_DAY
     SPECIFIED = mt5.ORDER_TIME_SPECIFIED
     SPECIFIED_DAY = mt5.ORDER_TIME_SPECIFIED_DAY
 
 
-class OrderType(IntEnum):
+class OrderType(Repr, IntEnum):
     BUY = mt5.ORDER_TYPE_BUY
     SELL = mt5.ORDER_TYPE_SELL
     BUY_LIMIT = mt5.ORDER_TYPE_BUY_LIMIT
@@ -37,7 +42,7 @@ class OrderType(IntEnum):
     CLOSE_BUY = mt5.ORDER_TYPE_CLOSE_BY
 
 
-class TimeFrame(IntEnum):
+class TimeFrame(Repr, IntEnum):
     M1 = mt5.TIMEFRAME_M1
     M2 = mt5.TIMEFRAME_M2
     M3 = mt5.TIMEFRAME_M3

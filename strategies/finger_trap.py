@@ -5,7 +5,6 @@ from mql.symbol import Symbol
 from mql.strategy import Strategy, Entry
 from mql.constants import TimeFrame, OrderType
 from mql.candle import Candle, Candles
-from mql.account import Account
 
 
 class FTCandle(Candle):
@@ -23,15 +22,12 @@ class FingerTrap(Strategy):
     fast_period: int = 8
     slow_period: int = 34
     Candle = FTCandle
+    prices: Candles
+    entry: Entry
+    name = "FingerTrap"
 
-    def __init__(self, *, symbol: Symbol, account: Account):
-        self.fast_period = self.fast_period
-        self.slow_period = self.slow_period
-        self.trend_time_frame = self.trend_time_frame
-        self.entry_time_frame = self.entry_time_frame
-        self.trend = self.trend
-        self.trader = DealTrader(account=account, symbol=symbol)
-        self.name = "FingerTrap"
+    def __init__(self, *, symbol: Symbol):
+        self.trader = DealTrader(symbol=symbol)
         super().__init__(symbol=symbol)
 
     @property
@@ -41,10 +37,21 @@ class FingerTrap(Strategy):
             "symbol": self.symbol.name,
             "fast_period": self.fast_period,
             "slow_period": self.slow_period,
-            "trend_time": self.trend_time_frame,
-            "entry_time": self.entry_time_frame,
+            "trend_time": self.trend_time_frame.time,
+            "entry_time": self.entry_time_frame.time,
             "trend": self.trend,
         }
+
+    async def get_support(self):
+        if self.entry.trend == 'uptrend':
+            sup = self.prices.get_swing_low()
+            tick = await self.symbol.tick()
+            self.entry.points = (tick.ask - sup.low) / self.symbol.point
+
+        else:
+            sup = self.prices.get_swing_high()
+            tick = await self.symbol.tick()
+            self.entry.points = (sup.high - tick.bid) / self.symbol.point
 
     async def check_trend(self):
         fast: Candles
@@ -52,60 +59,66 @@ class FingerTrap(Strategy):
         fast, slow = await asyncio.gather(self.get_ema(time_frame=self.trend_time_frame, period=self.fast_period),
                                           self.get_ema(time_frame=self.trend_time_frame, period=self.slow_period))
 
-        fast: list[FTCandle] = [candle for candle in fast[1:self.trend+1]]
-        slow: list[FTCandle] = [candle for candle in slow[1:self.trend+1]]
+        fast: list[FTCandle] = [candle for candle in fast[1:self.trend + 1]]
+        slow: list[FTCandle] = [candle for candle in slow[1:self.trend + 1]]
 
         uptrend = all((s.ema < f.ema < f.close) for f, s in zip(fast, slow))
         if uptrend:
-            return Entry(trend='uptrend', time=self.entry_time_frame.time, type=OrderType.BUY)
+            self.entry = Entry(trend='uptrend', time=self.entry_time_frame.time, type=OrderType.BUY)
+            return
 
         downtrend = all((s.ema > f.ema > f.close) for f, s in zip(fast, slow))
         if downtrend:
-            return Entry(trend='downtrend', time=self.entry_time_frame.time, type=OrderType.SELL)
+            self.entry = Entry(trend='downtrend', time=self.entry_time_frame.time, type=OrderType.SELL)
+            return
 
-        return Entry(current=fast[0].time, time=self.trend_time_frame.time)
+        self.entry = Entry(current=fast[0].time, time=self.trend_time_frame.time)
 
-    async def confirm_trend(self) -> Entry:
-        entry = await self.check_trend()
-        if entry.trend == 'notrend':
-            if self.current == entry.current:
-                return Entry(new=False)
-            self.current = entry.current
-            return entry
+    async def confirm_trend(self):
+        await self.check_trend()
+        if self.entry.trend == 'notrend':
+            if self.current == self.entry.current:
+                self.entry.new = False
+                return
+            self.current = self.entry.current
+            return
 
-        prices: Candles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
-        entry_candle: FTCandle = prices[1]
+        self.prices: Candles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
+        entry_candle: FTCandle = self.prices[1]
 
         if self.current == entry_candle.time:
-            return Entry(new=False)
+            self.entry.new = False
+            return
         else:
             self.current = entry_candle.time
 
-        if entry.trend == 'uptrend' and entry_candle.ema_crossover():
-            return entry
+        if True or self.entry.trend == 'uptrend' and entry_candle.ema_crossover():
+            await self.get_support()
+            return
 
-        if entry.trend == 'downtrend' and entry_candle.ema_cross_under():
-            return entry
+        if True or self.entry.trend == 'downtrend' and entry_candle.ema_cross_under():
+            await self.get_support()
+            return
 
-        return Entry(time=self.trend_time_frame.time)
+        self.entry = Entry(time=self.trend_time_frame.time)
 
     async def trade(self):
         while True:
             try:
-                entry = await self.confirm_trend()
-                print(self.symbol, entry.trend, '\n')
+                await self.confirm_trend()
+                print(self.symbol, self.entry.trend,  '\n')
 
-                if not entry.new:
+                if not self.entry.new:
                     await asyncio.sleep(0.5)
                     continue
 
-                if not entry.type:
-                    await self.sleep(entry.time)
+                if self.entry.type is None:
+                    await self.sleep(self.entry.time)
                     continue
 
-                await self.trader.place_trade(order=entry.type, params=self.parameters)
-                await self.sleep(entry.time)
+                await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
+                await self.sleep(self.entry.time)
             except Exception as err:
-                # print(self.symbol, err, "\n")
+                print(self.symbol, err, "\n")
                 await self.sleep(self.entry_time_frame.time)
                 continue

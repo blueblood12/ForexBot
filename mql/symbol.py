@@ -56,6 +56,7 @@ class Symbol(Base):
     async def tick(self):
         tick = await asyncio.to_thread(mt5.symbol_info_tick, self.name)
         self.set_attributes(**tick._asdict())
+        return self
 
     async def select(self):
         state = await asyncio.to_thread(mt5.symbol_select, self.name, True)
@@ -74,10 +75,14 @@ class Symbol(Base):
         rates = await asyncio.to_thread(mt5.copy_rates_from_pos, self.name, time_frame, start_position, count)
         return DataFrame(rates)
 
-    async def levels(self, *, volume: float, amount: float, risk_to_reward: float):
-        volume = volume if volume >= self.volume_min else self.volume_min
-        point_value = volume * self.point * 100000
+    def get_volume(self, amount, points):
+        vol = amount / (points * 100000 * self.point)
+        return round(max(vol, self.volume_min), 2)
+
+    async def get_limits(self, *, amount: float, risk_to_reward: float, points: float):
         amount = amount if self.currency_profit == "USD" else await self.dollar_to_currency(amount)
+        volume = self.get_volume(amount, points)
+        point_value = volume * self.point * 100000
         points = (amount / point_value) * self.point
         stop_loss, take_profit = points, points * risk_to_reward
         return stop_loss, take_profit, volume
@@ -96,6 +101,10 @@ class Symbol(Base):
 
 class Synthetic(Symbol):
 
-    async def levels(self, *, volume: float, amount: float, risk_to_reward: float):
-        volume = volume if volume >= self.volume_min else self.volume_min
+    def get_volume(self, amount, points):
+        vol = (points * self.point) / amount
+        return round(max(vol, self.volume_min), 2)
+
+    async def get_limits(self, *, amount: float, risk_to_reward: float,  points: float):
+        volume = self.get_volume(amount, points)
         return amount / volume, (amount / volume) * risk_to_reward, volume
