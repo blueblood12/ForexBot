@@ -25,6 +25,7 @@ class Entry:
 class Strategy(ABC):
     Candle: type(Candle) = Candle
     Candles: type(Candles) = Candles
+    name: str
 
     def __init__(self, *, symbol: Symbol):
         self.symbol = symbol

@@ -105,6 +105,6 @@ class Synthetic(Symbol):
         vol = (points * self.point) / amount
         return round(max(vol, self.volume_min), 2)
 
-    async def get_limits(self, *, amount: float, risk_to_reward: float,  points: float):
+    async def get_limits(self, *, amount: float, risk_to_reward: float, points: float):
         volume = self.get_volume(amount, points)
-        return amount / volume, (amount / volume) * risk_to_reward, volume
+        return (sl := amount / volume), sl * risk_to_reward, volume

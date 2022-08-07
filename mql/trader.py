@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from datetime import datetime
 from .account import Account
 from .request import MqlTradeRequest
 from .constants import OrderType
@@ -56,8 +57,8 @@ class DealTrader(MqlTrader):
                 return
 
             profit = await self.request.calc_profit()
-
-            await res.record_trade(action=str(self.request.action), type=str(self.request.type), expected_profit=profit, **params)
+            await res.record_trade(action=str(self.request.action), type=str(self.request.type), expected_profit=profit, **params,
+                                   timestamp=datetime.utcnow().timestamp())
             print(self.symbol, res.comment, '\n')
             return res
         except Exception as err:

@@ -2,10 +2,10 @@ from mql.trader import DealTrader, Symbol, OrderType
 
 
 class ScalpTrader(DealTrader):
+    amount: float = 2
 
     def __init__(self, *, symbol: Symbol, expiration=5):
         super().__init__(symbol=symbol)
-        self.amount = 2
         self.expiration = expiration * 3600
 
     async def create_request(self, order: OrderType, points: float):

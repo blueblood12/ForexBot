@@ -13,7 +13,7 @@ class FTCandles(Candles):
                 return candle
 
     def get_swing_low(self) -> None | type(Candle):
-        count = 2
+        count = 0
         for candle in self[1:-1]:
             if self.is_swing_low(candle) and (count := count+1) == 2:
                 return candle
@@ -30,14 +30,11 @@ class FixedVolumeTrader(DealTrader):
         await self.set_price_limits(limits=(sl, tp))
 
 
-class FingerTrapEbere(FingerTrap):
-    trend_time_frame: TimeFrame = TimeFrame.M5
-    entry_time_frame: TimeFrame = TimeFrame.M1
-    points: float = 30
-    expiration: int = 5
-    trend = 3
-    amount: float = 2
-    name = "FingerTrapEbere"
+class FingerTrapV2(FingerTrap):
+    trend_time_frame: TimeFrame = TimeFrame.H1
+    entry_time_frame: TimeFrame = TimeFrame.M5
+    trend = 2
+    name = "FingerTrapV2"
     volume = 0.02
     Candles = FTCandles
 

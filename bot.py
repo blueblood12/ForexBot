@@ -5,16 +5,18 @@ from mql.executor import Executor
 from mql.account import Account
 from strategies.finger_trap import FingerTrap, Strategy
 from strategies.finger_trap_scalper import FingerTrapScalper
-from strategies.finger_trap_ebere import FingerTrapEbere
+from strategies.finger_trap_scalper_session import FingerTrapSession
+from strategies.finger_trap_v2 import FingerTrapV2
+from mql.market import Market
 
-from markets import Forex
+from markets import Forex, Volatility
 
 account = Account(login=5050656, password="nwa0#anaEze", server="Deriv-Demo")
 # account = Account(login=5054652, password="nwa0#anaEze", server="Deriv-Demo", market='synthetic')
 
 
 class Bot:
-    def __init__(self, market: Forex):
+    def __init__(self, market: Market):
         self.market = market
         self.executor = Executor()
 
@@ -72,9 +74,12 @@ class Bot:
 
 mart = Forex(account=account)
 bot = Bot(market=mart)
-bot.add_all_default(FingerTrapEbere)
+bot.add_all_default(FingerTrapV2)
 bot.add_all_default(FingerTrap)
-scalpers = ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD"]
-params = [{} for i in scalpers]
-bot.add_many(FingerTrapScalper, scalpers, params)
+bot.add_all_default(FingerTrapSession)
+bot.add_all_default(FingerTrapScalper)
+# bot.add_many(FingerTrapScalper, scalpers, params)
+# scalpers = ["EURUSD", "USDJPY", "GBPUSD", "AUDUSD"]
+# params = [{} for i in scalpers]
+# bot.add_many(FingerTrapScalper, scalpers, params)
 bot.execute()

@@ -8,7 +8,7 @@ class MqlTradeResult(Base):
     order: int
     position: int
     volume: float
-    price: str
+    price: float
     bid: float
     ask: float
     comment: str
@@ -18,7 +18,7 @@ class MqlTradeResult(Base):
 
     async def record_trade(self, **kwargs):
         try:
-            kwargs.update(volume=self.volume, order=self.order, deal=self.deal)
+            kwargs.update(volume=self.volume, order=self.order, deal=self.deal, price=self.price)
             name = kwargs.pop('name')
             await save_to_csv(name, kwargs)
         except Exception as err:

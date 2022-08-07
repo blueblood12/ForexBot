@@ -18,7 +18,7 @@ class FTCandle(Candle):
 class FingerTrap(Strategy):
     trend_time_frame: TimeFrame = TimeFrame.M30
     entry_time_frame: TimeFrame = TimeFrame.M5
-    trend: int = 3
+    trend: int = 4
     fast_period: int = 8
     slow_period: int = 34
     Candle = FTCandle
@@ -37,8 +37,8 @@ class FingerTrap(Strategy):
             "symbol": self.symbol.name,
             "fast_period": self.fast_period,
             "slow_period": self.slow_period,
-            "trend_time": self.trend_time_frame.time,
-            "entry_time": self.entry_time_frame.time,
+            "trend_time": self.trend_time_frame,
+            "entry_time": self.entry_time_frame,
             "trend": self.trend,
         }
 
@@ -92,11 +92,11 @@ class FingerTrap(Strategy):
         else:
             self.current = entry_candle.time
 
-        if True or self.entry.trend == 'uptrend' and entry_candle.ema_crossover():
+        if self.entry.trend == 'uptrend' and entry_candle.ema_crossover():
             await self.get_support()
             return
 
-        if True or self.entry.trend == 'downtrend' and entry_candle.ema_cross_under():
+        if self.entry.trend == 'downtrend' and entry_candle.ema_cross_under():
             await self.get_support()
             return
 
@@ -120,5 +120,5 @@ class FingerTrap(Strategy):
                 await self.sleep(self.entry.time)
             except Exception as err:
                 print(self.symbol, err, "\n")
-                await self.sleep(self.entry_time_frame.time)
+                await self.sleep(self.trend_time_frame.time)
                 continue
