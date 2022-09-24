@@ -1,10 +1,11 @@
 import asyncio
+# import logging
 
-from mql.trader import DealTrader
-from mql.symbol import Symbol
-from mql.strategy import Strategy, Entry
-from mql.constants import TimeFrame, OrderType
-from mql.candle import Candle, Candles
+from ..traders.simple_deal_trader import DealTrader
+from ...symbol import Symbol
+from ...strategy import Strategy, Entry
+from ...core.constants import TimeFrame, OrderType
+from ...candle import Candle, Candles
 
 
 class FTCandle(Candle):
@@ -15,6 +16,24 @@ class FTCandle(Candle):
         return self.open > self.ema > self.close
 
 
+class FTCandles(Candles):
+    def get_swing_high(self) -> type(Candle):
+        for candle in self[1:-1]:
+            if self.is_swing_high(candle):
+                return candle
+
+    def get_swing_low(self) -> type(Candle):
+        for candle in self[1:-1]:
+            if self.is_swing_low(candle):
+                return candle
+
+    def is_swing_high(self, candle: Candle):
+        return self[candle.Index - 1].high < candle.high > self[candle.Index + 1].high
+
+    def is_swing_low(self, candle: Candle):
+        return self[candle.Index - 1].low > candle.low < self[candle.Index + 1].low
+
+
 class FingerTrap(Strategy):
     trend_time_frame: TimeFrame = TimeFrame.M30
     entry_time_frame: TimeFrame = TimeFrame.M5
@@ -22,13 +41,15 @@ class FingerTrap(Strategy):
     fast_period: int = 8
     slow_period: int = 34
     Candle = FTCandle
-    prices: Candles
-    entry: Entry
+    Candles = FTCandles
+    prices: FTCandles
+    entry: Entry = Entry(time=trend_time_frame.time)
     name = "FingerTrap"
 
-    def __init__(self, *, symbol: Symbol):
-        self.trader = DealTrader(symbol=symbol)
+    def __init__(self, *, symbol: type(Symbol), params: dict | None = None):
         super().__init__(symbol=symbol)
+        self.trader = DealTrader(symbol=self.symbol)
+        self.parameters = params or {}
 
     @property
     def parameters(self):
@@ -39,23 +60,28 @@ class FingerTrap(Strategy):
             "slow_period": self.slow_period,
             "trend_time": self.trend_time_frame,
             "entry_time": self.entry_time_frame,
-            "trend": self.trend,
+            "trend": self.trend
         }
+
+    @parameters.setter
+    def parameters(self, params: dict):
+        if isinstance(params, dict):
+            self.parameters.update(params)
 
     async def get_support(self):
         if self.entry.trend == 'uptrend':
             sup = self.prices.get_swing_low()
-            tick = await self.symbol.tick()
+            tick = await self.symbol()
             self.entry.points = (tick.ask - sup.low) / self.symbol.point
 
         else:
             sup = self.prices.get_swing_high()
-            tick = await self.symbol.tick()
+            tick = await self.symbol()
             self.entry.points = (sup.high - tick.bid) / self.symbol.point
 
     async def check_trend(self):
-        fast: Candles
-        slow: Candles
+        fast: FTCandles
+        slow: FTCandles
         fast, slow = await asyncio.gather(self.get_ema(time_frame=self.trend_time_frame, period=self.fast_period),
                                           self.get_ema(time_frame=self.trend_time_frame, period=self.slow_period))
 
@@ -83,7 +109,7 @@ class FingerTrap(Strategy):
             self.current = self.entry.current
             return
 
-        self.prices: Candles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
+        self.prices: FTCandles = await self.get_ema(time_frame=self.entry_time_frame, period=self.fast_period)
         entry_candle: FTCandle = self.prices[1]
 
         if self.current == entry_candle.time:
@@ -106,8 +132,6 @@ class FingerTrap(Strategy):
         while True:
             try:
                 await self.confirm_trend()
-                print(self.symbol, self.entry.trend,  '\n')
-
                 if not self.entry.new:
                     await asyncio.sleep(0.5)
                     continue
@@ -116,9 +140,11 @@ class FingerTrap(Strategy):
                     await self.sleep(self.entry.time)
                     continue
 
-                await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
+                await self.trader.place_trade(order=OrderType.BUY, points=50, params=self.parameters)
+                # await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
                 await self.sleep(self.entry.time)
             except Exception as err:
-                print(self.symbol, err, "\n")
+                # logging.error(err, extra={"symbol": self.symbol})
+                print(err, self.symbol)
                 await self.sleep(self.trend_time_frame.time)
                 continue

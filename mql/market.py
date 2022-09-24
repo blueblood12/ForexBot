@@ -1,35 +1,28 @@
-import asyncio
 from abc import ABC
 
-import MetaTrader5 as mt5
-
+from .core.meta_trader import MetaTrader
 from .symbol import Symbol
-from .account import Account
 
 
 class Market(ABC):
     symbols = set()
+    name: str = ""
+    symbol: type(Symbol) = Symbol
 
-    def __init__(self, *, account: Account, symbol: type(Symbol), path=""):
-        self.account = account
-        self.instruments: set[symbol] = set()
-        self.symbol = symbol
-        self.data = {name: self.symbol(name=name) for name in self.symbols}
-        self.connected = False
-        self.path = path
+    def __init__(self, *, mt5=MetaTrader()):
+        self.mt5 = mt5
+        self.trading_symbols: set[type(Symbol)] = set()
+        self.symbol = self.symbol
+        self.name = self.name or self.__class__.__name__
 
     def select_all(self):
-        self.instruments = set(self.data.values())
+        self.trading_symbols = {self.symbol(name=symbol) for symbol in self.symbols}
 
     def select(self, *symbols):
-        symbols = set(self.data.values()).intersection(symbols)
-        self.instruments.update(symbols)
+        symbols = self.symbols.intersection(symbols)
+        symbols = {self.symbol(name=symbol) for symbol in symbols}
+        self.trading_symbols.update(symbols)
+        return symbols
 
-    async def init(self):
-        if await asyncio.to_thread(mt5.initialize):
-            self.connected = await self.account.account_login()
-            if self.connected:
-                [await symbol.init() for symbol in self.instruments]
-                return self.connected
-            return False
-        return False
+    async def init_symbols(self):
+        self.trading_symbols = {symbol for symbol in self.trading_symbols if await symbol.init()}

@@ -1,45 +1,25 @@
-import asyncio
+from datetime import datetime
 
-import MetaTrader5 as mt5
 from pandas import DataFrame
 
-from . import Base
-from .constants import TimeFrame
+from .core.meta_trader import MetaTrader
+from .core.constants import TimeFrame, CopyTicks
+from .core.models import SymbolInfo
+from .ticks import Tick
 
-dollar_pairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY']
 
-
-class Symbol(Base):
-    name: str
-    time: int
-    bid: float
-    ask: float
-    bidhigh: float
-    bidlow: float
-    askhigh: float
-    asklow: float
-    point: float
-    pip: float
-    last = 0.0
-    volume = 0
-    volume_real: float
-    volumehigh: float
-    volumelow: float
-    volume_min: float
-    volume_max: float
-    volume_step: float
-    volume_limit: float
-    time_msc: int
-    flags: int
-    digits: int
-    spread: float
-    visible: bool
+class Symbol(SymbolInfo):
+    tick: Tick
     selected: bool
-    currency_base: str
-    currency_profit: str  # quote currency
 
-    def __init__(self, **kwargs):
+    def __init__(self, mt5=MetaTrader(), **kwargs):
+        self.mt5 = mt5
         super().__init__(**kwargs)
+
+    async def __call__(self, name: str = "") -> Tick:
+        name = name if name else self.name
+        tick = await self.mt5.symbol_info_tick(name)
+        return Tick(**tick._asdict())
 
     def __repr__(self):
         return f"{self.name}"
@@ -53,58 +33,28 @@ class Symbol(Base):
     def __hash__(self):
         return hash(self.name)
 
-    async def tick(self):
-        tick = await asyncio.to_thread(mt5.symbol_info_tick, self.name)
-        self.set_attributes(**tick._asdict())
-        return self
+    async def get_tick(self):
+        tick = await self()
+        self.set_attributes(tick=tick, **tick.dict)
 
-    async def select(self):
-        state = await asyncio.to_thread(mt5.symbol_select, self.name, True)
-        self.visible = self.selected = state
+    async def _select(self):
+        self.selected = await self.mt5.symbol_select(self.name, True)
 
-    async def info(self):
-        info = await asyncio.to_thread(mt5.symbol_info, self.name)
+    async def get_info(self):
+        info = await self.mt5.symbol_info(self.name)
         if info:
-            self.set_attributes(**info._asdict())
+            self.set_attributes(**info.dict)
 
-    async def init(self):
-        await self.select()
-        await self.info()
+    async def init(self) -> bool:
+        await self._select()
+        if self.selected:
+            await self.get_info()
+        return self.selected
 
     async def rates_from_pos(self, *, time_frame: TimeFrame, count: int = 500, start_position: int = 0) -> DataFrame:
-        rates = await asyncio.to_thread(mt5.copy_rates_from_pos, self.name, time_frame, start_position, count)
+        rates = await self.mt5.copy_rates_from_pos(self.name, time_frame, start_position, count)
         return DataFrame(rates)
 
-    def get_volume(self, amount, points):
-        vol = amount / (points * 100000 * self.point)
-        return round(max(vol, self.volume_min), 2)
-
-    async def get_limits(self, *, amount: float, risk_to_reward: float, points: float):
-        amount = amount if self.currency_profit == "USD" else await self.dollar_to_currency(amount)
-        volume = self.get_volume(amount, points)
-        point_value = volume * self.point * 100000
-        points = (amount / point_value) * self.point
-        stop_loss, take_profit = points, points * risk_to_reward
-        return stop_loss, take_profit, volume
-
-    async def dollar_to_currency(self, amount: float) -> float:
-        if (symbol := f"{self.currency_profit}USD") in dollar_pairs:
-            tick = await Symbol.get_tick(symbol)
-            return amount / tick.ask
-        tick = await Symbol.get_tick(f"USD{self.currency_profit}")
-        return amount * tick.ask
-
-    @classmethod
-    async def get_tick(cls, name):
-        return await asyncio.to_thread(mt5.symbol_info_tick, name)
-
-
-class Synthetic(Symbol):
-
-    def get_volume(self, amount, points):
-        vol = (points * self.point) / amount
-        return round(max(vol, self.volume_min), 2)
-
-    async def get_limits(self, *, amount: float, risk_to_reward: float, points: float):
-        volume = self.get_volume(amount, points)
-        return (sl := amount / volume), sl * risk_to_reward, volume
+    async def ticks_from_pos(self, *, date_from: datetime | int, count: int = 100, flags: CopyTicks = CopyTicks.COPY_TICKS_INFO) -> DataFrame:
+        ticks = await self.mt5.copy_ticks_from(self.name, date_from, count, flags)
+        return DataFrame(ticks)

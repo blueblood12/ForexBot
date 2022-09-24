@@ -1,13 +1,13 @@
 import asyncio
 import time
 from dataclasses import dataclass
-from typing import Literal
-from abc import abstractmethod, ABC
+from typing import Literal, Type
+from abc import ABC, abstractmethod
 
 import pandas_ta as ta
 from pandas import DataFrame
 
-from .constants import TimeFrame, OrderType
+from .core.constants import TimeFrame, OrderType
 from .candle import Candles, Candle
 from .symbol import Symbol
 
@@ -23,13 +23,17 @@ class Entry:
 
 
 class Strategy(ABC):
-    Candle: type(Candle) = Candle
-    Candles: type(Candles) = Candles
-    name: str
+    Candle: Type[Candle] = Candle
+    Candles: Type[Candles] = Candles
+    name:  str = ""
 
-    def __init__(self, *, symbol: Symbol):
+    def __init__(self, *, symbol: Symbol, **kwargs):
         self.symbol = symbol
         self.current = 0
+        self.name = self.name or self.__class__.__name__
+
+    def __repr__(self):
+        return f"{self.name}({self.symbol!r})"
 
     async def get_ema(self, *, time_frame: TimeFrame, period: int) -> type(Candles):
         data: DataFrame = await self.symbol.rates_from_pos(time_frame=time_frame)
@@ -37,8 +41,15 @@ class Strategy(ABC):
         data.rename(columns={f"EMA_{period}": 'ema'}, inplace=True)
         return self.Candles(data=data, candle=self.Candle)
 
-    def set_params(self, **params):
-        [setattr(self, key, value) for key, value in params.items()]
+    @property
+    @abstractmethod
+    def parameters(self) -> dict:
+        """return parameters as dict """
+
+    @parameters.setter
+    @abstractmethod
+    def parameters(self, params: dict):
+        """return parameters as dict """
 
     @staticmethod
     async def sleep(secs: float):

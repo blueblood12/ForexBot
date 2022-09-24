@@ -1,70 +1,37 @@
-import asyncio
 from datetime import datetime, timedelta
+from typing import Iterable
 
-import MetaTrader5 as mt5
-
-from . import Base
+from .core import Base
+from .core.meta_trader import MetaTrader
+from .core.models import TradeDeal, TradeOrder
 from mql.strategy import Strategy
 from utils.record import update_csv, get_orders
 
 
-class Deal(Base):
-    ticket: int
-    order: int
-    time: int
-    time_msc: float
-    type: int
-    entry: int
-    magic: int
-    position_id: int
-    reason: int
-    volume: float
-    price: float
-    commission: float
-    swap: float
-    profit: float
-    fee: float
-    symbol: str
-    comment: str
-
-
-class Order(Base):
-    ticket: int
-    order: int
-    time_setup: int
-    time_setup_msc: float
-    time_expiration: float
-    type: int
-    type_time: int
-    type_filling: int
-    state: int
-    magic: int
-    volume_current: float
-    price_open: float
-    sl: float
-    tp: float
-    price_current: float
-    symbol: str
-
-
 class History:
-    def __init__(self, strategy: str):
-        self.strategy = strategy
-        self.deals: list[Deal] = []
-        self.orders: list[Order] = []
+    deals: Iterable[TradeDeal]
+    orders: Iterable[TradeOrder]
+    total_deals: float = 0
+    total_orders: float = 0
+
+    def __init__(self, mt5=MetaTrader(), date_from: datetime | int = datetime.utcnow(), date_to: datetime | int = datetime.utcnow(), count: int = 500):
+        self.mt5 = mt5
+        self.date_from = date_from
+        self.date_to = date_to
+        self.count = count
         self.update: dict[int | str, dict | list] = {}
 
-    async def get_deals(self, *, start: float | None = None, end: float | None = None):
-        now = datetime.utcnow()
-        end = datetime.fromtimestamp(end) if end else now + timedelta(hours=24-now.hour, minutes=-now.minute, seconds=59)
-        start = datetime.fromtimestamp(start) if start else end - timedelta(hours=end.hour, minutes=end.minute)
-        print(end, start)
-        res = await asyncio.to_thread(mt5.history_deals_get, start, end)
-        self.deals = [Deal(**deal._asdict()) for deal in res]
+    async def get_deals(self, group: str = '', ticket: int = 0, position: int = 0):
+        self.deals = await self.mt5.history_deals_get(date_from=self.date_from, date_to=self.date_to, group=group, ticket=ticket, position=position)
 
-    async def get_deal(self, ticket):
-        res = await asyncio.to_thread(mt5.history_deals_get, ticket=ticket)
-        return res
+    async def deals_total(self):
+        self.total_deals = await self.mt5.history_deals_total(self.date_from, self.date_to)
+
+    async def get_orders(self, group: str = '', ticket: int = 0, position: int = 0):
+        self.orders = await self.mt5.history_orders_get(date_from=self.date_from, date_to=self.date_to, group=group, ticket=ticket, position=position)
+
+    async def orders_total(self):
+        self.total_orders = await self.mt5.history_orders_total(self.date_from, self.date_to)
 
     async def update_record(self):
         start, orders, fieldnames = await get_orders(self.strategy)

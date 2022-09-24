@@ -1,8 +1,8 @@
-from typing import Union
+from typing import Union, Type
 
 from pandas import DataFrame
 
-from . import Base
+from .core import Base
 
 
 class Candle(Base):
@@ -16,9 +16,6 @@ class Candle(Base):
     real_volume: float
     spread: float
     ema: float
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}" + '(' + ', '.join(f"{i}={{{i}}}" for i in self.__dict__.keys()).format(**self.__dict__) + ')'
 
     def __lt__(self, other: 'Candle'):
         return self.Index < other.Index
@@ -44,12 +41,12 @@ class Candle(Base):
 
 
 class Candles:
-    def __init__(self, *, data: DataFrame, candle=Candle):
-        self.__data = data.iloc[::-1]
+    def __init__(self, *, data: DataFrame, candle: Type[Candle] = Candle, turn=True):
+        self._data = data.iloc[::-1] if turn else data
         self.Candle = candle
 
     def __len__(self):
-        return self.__data.shape[0]
+        return self._data.shape[0]
 
     def __contains__(self, item: Candle):
         return item.time == self[item.Index].time
@@ -57,31 +54,15 @@ class Candles:
     def __getitem__(self, index) -> Union[type(Candle), "Candles"]:
         if isinstance(index, slice):
             cls = self.__class__
-            data = self.__data.iloc[index]
-            return cls(data=data.iloc[::-1], candle=self.Candle)
+            data = self._data.iloc[index]
+            return cls(data=data, candle=self.Candle, turn=False)
 
-        item = self.__data.iloc[index]
+        item = self._data.iloc[index]
         return self.Candle(Index=index, **item)
 
     def __iter__(self):
-        return (self.Candle(**row._asdict()) for row in self.__data.itertuples())
-
-    def get_swing_high(self) -> type(Candle):
-        for candle in self[1:-1]:
-            if self.is_swing_high(candle):
-                return candle
-
-    def get_swing_low(self) -> type(Candle):
-        for candle in self[1:-1]:
-            if self.is_swing_low(candle):
-                return candle
-
-    def is_swing_high(self, candle: Candle):
-        return self[candle.Index - 1].high < candle.high > self[candle.Index + 1].high
-
-    def is_swing_low(self, candle: Candle):
-        return self[candle.Index - 1].low > candle.low < self[candle.Index + 1].low
+        return (self.Candle(**row._asdict()) for row in self._data.itertuples())
 
     @property
     def data(self):
-        return self.__data
+        return self._data
