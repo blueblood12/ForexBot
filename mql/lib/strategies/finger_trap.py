@@ -142,8 +142,7 @@ class FingerTrap(Strategy):
                 #     await self.sleep(self.entry.time)
                 #     continue
 
-                await self.trader.place_trade(order=OrderType.BUY, points=50, params=self.parameters)
-                # await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
+                await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
                 await self.sleep(self.entry.time)
             except Exception as err:
                 logger.error(f"Error: {err}\t Symbol: {self.symbol}")
