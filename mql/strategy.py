@@ -41,16 +41,6 @@ class Strategy(ABC):
         data.rename(columns={f"EMA_{period}": 'ema'}, inplace=True)
         return self.Candles(data=data, candle=self.Candle)
 
-    @property
-    @abstractmethod
-    def parameters(self) -> dict:
-        """return parameters as dict """
-
-    @parameters.setter
-    @abstractmethod
-    def parameters(self, params: dict):
-        """return parameters as dict """
-
     @staticmethod
     async def sleep(secs: float):
         await asyncio.sleep(secs - (time.time() % secs) + 1)

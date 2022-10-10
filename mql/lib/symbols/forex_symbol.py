@@ -5,7 +5,7 @@ from ...symbol import Symbol
 
 class ForexSymbol(Symbol):
 
-    dollar_pairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY']
+    dollar_pairs = ('AUDUSD', 'EURUSD', 'GBPUSD', 'NZDUSD', 'USDCAD', 'USDCHF', 'USDJPY')
 
     def get_volume(self, amount, points):
         vol = amount / (points * 100000 * self.point)
@@ -21,7 +21,7 @@ class ForexSymbol(Symbol):
 
     async def dollar_to_currency(self, amount: float) -> float:
         if (symbol := f"{self.currency_profit}USD") in self.dollar_pairs:
-            tick = await self(symbol)
+            tick = await self.get_tick(symbol)
             return amount / tick.ask
-        tick = await self(f"USD{self.currency_profit}")
+        tick = await self.get_tick(f"USD{self.currency_profit}")
         return amount * tick.ask

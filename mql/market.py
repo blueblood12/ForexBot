@@ -1,6 +1,7 @@
 from abc import ABC
 
 from .core.meta_trader import MetaTrader
+from .core.models import BookInfo
 from .symbol import Symbol
 
 
@@ -23,6 +24,17 @@ class Market(ABC):
         symbols = {self.symbol(name=symbol) for symbol in symbols}
         self.trading_symbols.update(symbols)
         return symbols
+
+    async def book_add(self, symbol: str):
+        return await self.mt5.market_book_add(symbol) if symbol in self.trading_symbols else False
+
+    async def book_get(self, symbol: str) -> BookInfo | None:
+        if symbol not in self.trading_symbols: return None
+        info = await self.mt5.market_book_get(symbol)
+        return BookInfo(**info._asdict())
+
+    async def book_release(self, symbol: str):
+        return await self.mt5.market_book_release(symbol) if symbol in self.trading_symbols else False
 
     async def init_symbols(self):
         self.trading_symbols = {symbol for symbol in self.trading_symbols if await symbol.init()}

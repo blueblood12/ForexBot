@@ -1,4 +1,4 @@
-# import logging
+import logging
 import datetime
 
 from ... import dict_to_string
@@ -6,6 +6,8 @@ from ...result import TradeResult
 from ...symbol import Symbol
 from ...trader import Trader
 from ...core.constants import OrderType
+
+logger = logging.getLogger()
 
 
 class DealTrader(Trader):
@@ -24,7 +26,7 @@ class DealTrader(Trader):
         await self.set_order_limits(sl, tp)
 
     async def set_order_limits(self, sl, tp):
-        tick = await self.symbol()
+        tick = await self.symbol.get_tick()
         if self.order.type == OrderType.BUY:
             self.order.sl, self.order.tp = tick.ask - sl, tick.ask + tp
             self.order.price = tick.ask
@@ -39,22 +41,19 @@ class DealTrader(Trader):
 
             check = await self.order.check()
             if check.retcode != 0:
-                print(check.comment)
-                # logging.warning(f"{check.comment}", extra={"parameters": dict_to_string(params | self.order.dict), "symbol": self.order.symbol})
+                logger.warning(f"Comment: {check.comment}\tParameters: {dict_to_string(params)}\tsymbol: {self.order.symbol}")
                 return
 
             result = await self.order.send()
             if result.retcode != 10009:
-                print(result.comment)
-                # logging.warning(f"{result.comment}", extra={"parameters": dict_to_string(params | self.order.dict), "symbol": self.order.symbol})
+                logger.warning(f"Comment: {result.comment}\tParameters: {dict_to_string(params)}\tsymbol: {self.order.symbol}")
                 return
 
-            # logging.info(f"{result.comment}", extra={"parameters": dict_to_string(params | self.order.dict), "symbol": self.order.symbol})
-            print(result.comment)
+            logger.info(f"{result.comment}\tparameters: {dict_to_string(params)}\tsymbol: {self.order.symbol}")
             self.order.set_attributes(**result.get_dict(include={'price', 'volume'}))
             result.profit = await self.order.calc_profit()
             TradeResult(parameters=params, request=self.order, result=result, check=check, time=datetime.datetime.utcnow().timestamp())
             return
         except Exception as err:
             print(err)
-            # logging.error(err, extra={"parameters": dict_to_string(params | self.order.dict), "symbol": self.order.symbol})
+            logger.error(f"{err}\tparameters: {dict_to_string(params)}\tsymbol: {self.order.symbol}")

@@ -14,7 +14,7 @@ class TradeAction(Repr, IntEnum):
     SLTP = mt5.TRADE_ACTION_SLTP
     MODIFY = mt5.TRADE_ACTION_MODIFY
     REMOVE = mt5.TRADE_ACTION_MODIFY
-    CLOSE = mt5.TRADE_ACTION_CLOSE_BY
+    CLOSE_BY = mt5.TRADE_ACTION_CLOSE_BY
 
 
 class OrderFilling(Repr, IntEnum):
@@ -39,7 +39,11 @@ class OrderType(Repr, IntEnum):
     SELL_STOP = mt5.ORDER_TYPE_SELL_STOP
     BUY_STOP_LIMIT = mt5.ORDER_TYPE_BUY_STOP_LIMIT
     SELL_STOP_LIMIT = mt5.ORDER_TYPE_SELL_STOP_LIMIT
-    CLOSE_BUY = mt5.ORDER_TYPE_CLOSE_BY
+    CLOSE_BY = mt5.ORDER_TYPE_CLOSE_BY
+
+    @property
+    def opposite(self):
+        return {0:  1, 1: 0, 2: 3, 3: 2, 4: 5, 5: 4, 6: 7, 7: 6, 8: 8}[self]
 
 
 class BookType(Repr, IntEnum):

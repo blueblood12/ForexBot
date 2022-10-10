@@ -1,6 +1,6 @@
 import asyncio
 from typing import Sequence, Type
-# import logging
+import logging
 
 from .core.meta_trader import MetaTrader
 from .executor import Executor
@@ -10,13 +10,14 @@ from .symbol import Symbol
 from .strategy import Strategy
 from .config import Config
 
-config = Config()
+logger = logging.getLogger()
 
 
 class Bot:
-    def __init__(self, *, market: Market, mt5=MetaTrader(), ):
+    def __init__(self, *, market: Market, mt5=MetaTrader()):
+        self.config = Config()
         self.account = account
-        self.account.set_attributes(login=config.login, password=config.password, server=config.server)
+        self.account.set_attributes(login=self.config.login, password=self.config.password, server=self.config.server)
         self.executor = Executor()
         self.market = market
         self.mt5 = mt5
@@ -27,33 +28,32 @@ class Bot:
     def add_all_market_symbols(self):
         self.market.select_all()
 
-    @staticmethod
-    def create_records_dir():
-        path = config.base / 'trade_records'
-        path.mkdir(exist_ok=True)
+    def create_records_dir(self):
+        self.config.records_dir.mkdir(parents=True, exist_ok=True)
 
-    async def initialize(self) -> bool:
-        await self.mt5.initialize(login=config.login, server=config.server, password=config.password)
+    async def initialize(self):
+        init = await self.mt5.initialize(login=self.account.login, server=account.server, password=account.password)
+        if not init:
+            logger.error("Unable to initialize terminal")
+            exit(0)
+        logger.info("Initialized Terminal")
+
         connect = await self.account.account_login()
         if not connect:
-            # logging.error("Unable to login")
-            return False
+            logger.error("Unable to login into to account terminal")
+            exit(0)
+        logger.info("Login Successful")
+
         await self.market.init_symbols()
-        return True
 
     def execute(self):
-        init = asyncio.run(self.initialize())
-        if not init:
-            print("Unable to start")
-            return
+        asyncio.run(self.initialize())
 
-        if config.record_trades:
+        if self.config.record_trades:
             self.create_records_dir()
 
-        if config.executor == 'process':
-            self.executor.process_pool_executor()
-            return
-        self.executor.thread_pool_executor()
+        print("Starting thr Bot")
+        self.executor.execute()
 
     def add_strategy(self, strategy: type(Strategy)):
         self.executor.add_worker(strategy)

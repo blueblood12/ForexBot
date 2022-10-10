@@ -1,0 +1,308 @@
+2022-10-04 01:24:29,873 : Using proactor: IocpProactor
+2022-10-04 01:24:29,898 : Initialized Terminal
+2022-10-04 01:24:29,977 : Login Successful
+2022-10-04 01:24:36,347 : Using proactor: IocpProactor
+2022-10-04 01:24:36,378 : Using proactor: IocpProactor
+2022-10-04 01:24:36,382 : Initialized Terminal
+2022-10-04 01:24:36,384 : Login Successful
+2022-10-04 01:24:36,419 : Using proactor: IocpProactor
+2022-10-04 01:24:36,446 : Initialized Terminal
+2022-10-04 01:24:36,448 : Login Successful
+2022-10-04 01:24:36,458 : Initialized Terminal
+2022-10-04 01:24:36,460 : Login Successful
+2022-10-04 01:24:36,480 : Using proactor: IocpProactor
+2022-10-04 01:24:36,529 : Using proactor: IocpProactor
+2022-10-04 01:24:36,550 : Initialized Terminal
+2022-10-04 01:24:36,552 : Login Successful
+2022-10-04 01:24:36,575 : Using proactor: IocpProactor
+2022-10-04 01:24:36,597 : Using proactor: IocpProactor
+2022-10-04 01:24:36,597 : Initialized Terminal
+2022-10-04 01:24:36,599 : Login Successful
+2022-10-04 01:24:36,618 : Initialized Terminal
+2022-10-04 01:24:36,620 : Login Successful
+2022-10-04 01:24:36,643 : Initialized Terminal
+2022-10-04 01:24:36,645 : Login Successful
+2022-10-04 01:24:36,772 : Using proactor: IocpProactor
+2022-10-04 01:24:36,814 : Initialized Terminal
+2022-10-04 01:24:36,816 : Login Successful
+2022-10-04 01:24:36,836 : Using proactor: IocpProactor
+2022-10-04 01:24:37,025 : Using proactor: IocpProactor
+2022-10-04 01:24:37,151 : Initialized Terminal
+2022-10-04 01:24:37,276 : Login Successful
+2022-10-04 01:24:37,301 : Initialized Terminal
+2022-10-04 01:24:37,302 : Login Successful
+2022-10-04 01:27:09,144 : Using proactor: IocpProactor
+2022-10-04 01:27:09,167 : Initialized Terminal
+2022-10-04 01:27:09,170 : Login Successful
+2022-10-04 01:27:31,059 : Using proactor: IocpProactor
+2022-10-04 01:27:31,085 : Initialized Terminal
+2022-10-04 01:27:31,088 : Login Successful
+2022-10-04 01:27:31,104 : Using proactor: IocpProactor
+2022-10-04 01:27:31,105 : Using proactor: IocpProactor
+2022-10-04 01:27:31,106 : Using proactor: IocpProactor
+2022-10-04 01:27:31,108 : Using proactor: IocpProactor
+2022-10-04 01:27:31,496 : Using proactor: IocpProactor
+2022-10-04 01:27:32,270 : Using proactor: IocpProactor
+2022-10-04 01:27:32,708 : Using proactor: IocpProactor
+2022-10-04 01:27:32,716 : Using proactor: IocpProactor
+2022-10-04 01:27:32,717 : Using proactor: IocpProactor
+2022-10-04 01:27:33,384 : Using proactor: IocpProactor
+2022-10-04 01:27:35,171 : Error: 'SyntheticSymbol' object is not callable	 Symbol: Volatility 100 Index
+2022-10-04 01:32:52,002 : Using proactor: IocpProactor
+2022-10-04 01:32:52,024 : Initialized Terminal
+2022-10-04 01:32:52,026 : Login Successful
+2022-10-04 01:32:52,039 : Using proactor: IocpProactor
+2022-10-04 01:32:52,039 : Using proactor: IocpProactor
+2022-10-04 01:32:52,041 : Using proactor: IocpProactor
+2022-10-04 01:32:52,042 : Using proactor: IocpProactor
+2022-10-04 01:32:52,045 : Using proactor: IocpProactor
+2022-10-04 01:32:52,058 : Using proactor: IocpProactor
+2022-10-04 01:32:52,060 : Using proactor: IocpProactor
+2022-10-04 01:32:52,081 : Using proactor: IocpProactor
+2022-10-04 01:32:52,112 : Using proactor: IocpProactor
+2022-10-04 01:32:52,148 : Using proactor: IocpProactor
+2022-10-04 01:32:52,570 : 'coroutine' object has no attribute '_asdict'	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4 action: DEAL calc_margin: <function Order.calc_margin at 0x000001E74D994790> calc_profit: <function Order.calc_profit at 0x000001E74D994820> price: 485547.58 type_time: DAY type: BUY tp: 1428049.58 send: <function Order.send at 0x000001E74D994700> type_filling: FOK volume: 0.001 check: <function Order.check at 0x000001E74D994670> sl: 14296.580000000016	symbol: Volatility 75 Index
+2022-10-04 01:46:28,515 : Using proactor: IocpProactor
+2022-10-04 01:46:28,547 : Initialized Terminal
+2022-10-04 01:46:28,551 : Login Successful
+2022-10-04 01:46:28,570 : Using proactor: IocpProactor
+2022-10-04 01:46:28,573 : Using proactor: IocpProactor
+2022-10-04 01:46:28,574 : Using proactor: IocpProactor
+2022-10-04 01:46:28,576 : Using proactor: IocpProactor
+2022-10-04 01:46:28,579 : Using proactor: IocpProactor
+2022-10-04 01:46:28,586 : Using proactor: IocpProactor
+2022-10-04 01:46:28,588 : Using proactor: IocpProactor
+2022-10-04 01:46:28,591 : Using proactor: IocpProactor
+2022-10-04 01:46:28,591 : Using proactor: IocpProactor
+2022-10-04 01:46:28,609 : Using proactor: IocpProactor
+2022-10-04 01:46:29,386 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-04 01:50:33,726 : Using proactor: IocpProactor
+2022-10-04 01:50:33,766 : Initialized Terminal
+2022-10-04 01:50:33,770 : Login Successful
+2022-10-04 01:50:33,793 : Using proactor: IocpProactor
+2022-10-04 01:50:33,794 : Using proactor: IocpProactor
+2022-10-04 01:50:33,796 : Using proactor: IocpProactor
+2022-10-04 01:50:33,801 : Using proactor: IocpProactor
+2022-10-04 01:50:33,806 : Using proactor: IocpProactor
+2022-10-04 01:50:33,814 : Using proactor: IocpProactor
+2022-10-04 01:50:33,826 : Using proactor: IocpProactor
+2022-10-04 01:50:33,842 : Using proactor: IocpProactor
+2022-10-04 01:50:33,876 : Using proactor: IocpProactor
+2022-10-04 01:50:33,915 : Using proactor: IocpProactor
+2022-10-04 01:51:17,261 : Using proactor: IocpProactor
+2022-10-04 01:51:17,298 : Initialized Terminal
+2022-10-04 01:51:17,301 : Login Successful
+2022-10-04 01:51:17,323 : Using proactor: IocpProactor
+2022-10-04 01:51:17,324 : Using proactor: IocpProactor
+2022-10-04 01:51:17,325 : Using proactor: IocpProactor
+2022-10-04 01:51:17,327 : Using proactor: IocpProactor
+2022-10-04 01:51:17,328 : Using proactor: IocpProactor
+2022-10-04 01:51:17,332 : Using proactor: IocpProactor
+2022-10-04 01:51:17,333 : Using proactor: IocpProactor
+2022-10-04 01:51:17,336 : Using proactor: IocpProactor
+2022-10-04 01:51:17,346 : Using proactor: IocpProactor
+2022-10-04 01:51:17,348 : Using proactor: IocpProactor
+2022-10-04 01:51:17,382 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-04 01:51:17,385 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-04 01:51:17,986 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-04 01:51:17,990 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-04 01:51:18,386 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-04 01:51:18,581 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-04 01:51:18,772 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-04 01:51:18,774 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-04 01:51:19,194 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-04 01:51:19,197 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-05 23:29:40,213 : Using proactor: IocpProactor
+2022-10-05 23:29:40,306 : Initialized Terminal
+2022-10-05 23:29:40,310 : Login Successful
+2022-10-05 23:29:40,346 : Using proactor: IocpProactor
+2022-10-05 23:29:40,349 : Using proactor: IocpProactor
+2022-10-05 23:29:40,351 : Using proactor: IocpProactor
+2022-10-05 23:29:40,359 : Using proactor: IocpProactor
+2022-10-05 23:29:40,382 : Using proactor: IocpProactor
+2022-10-05 23:29:40,394 : Using proactor: IocpProactor
+2022-10-05 23:29:40,406 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-05 23:29:40,879 : Using proactor: IocpProactor
+2022-10-05 23:29:40,880 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-05 23:29:40,882 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-05 23:29:40,885 : Using proactor: IocpProactor
+2022-10-05 23:29:40,916 : Using proactor: IocpProactor
+2022-10-05 23:29:41,386 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-05 23:29:41,391 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-05 23:29:41,411 : Using proactor: IocpProactor
+2022-10-05 23:29:41,668 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-05 23:29:42,465 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-05 23:29:42,466 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-05 23:29:42,469 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-05 23:29:42,472 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-05 23:30:01,802 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-05 23:30:01,802 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-05 23:30:01,833 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-05 23:30:02,322 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-05 23:30:02,324 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-05 23:30:02,325 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-05 23:30:03,007 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-05 23:30:03,233 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-05 23:30:03,236 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-05 23:30:03,236 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-05 23:52:09,541 : Using proactor: IocpProactor
+2022-10-05 23:52:09,575 : Initialized Terminal
+2022-10-05 23:52:09,579 : Login Successful
+2022-10-05 23:52:09,603 : Using proactor: IocpProactor
+2022-10-05 23:52:09,604 : Using proactor: IocpProactor
+2022-10-05 23:52:09,607 : Using proactor: IocpProactor
+2022-10-05 23:52:09,608 : Using proactor: IocpProactor
+2022-10-05 23:52:09,611 : Using proactor: IocpProactor
+2022-10-05 23:52:09,620 : Using proactor: IocpProactor
+2022-10-05 23:52:09,634 : Using proactor: IocpProactor
+2022-10-05 23:52:09,642 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-05 23:52:09,645 : Using proactor: IocpProactor
+2022-10-05 23:52:09,648 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-05 23:52:09,655 : Using proactor: IocpProactor
+2022-10-05 23:52:09,864 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-05 23:52:10,075 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-05 23:52:10,080 : Using proactor: IocpProactor
+2022-10-05 23:52:10,566 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-05 23:52:10,571 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-05 23:52:10,790 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-05 23:52:11,208 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-05 23:52:11,414 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-05 23:52:11,420 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-05 23:52:48,412 : Using proactor: IocpProactor
+2022-10-05 23:52:48,449 : Initialized Terminal
+2022-10-05 23:52:48,453 : Login Successful
+2022-10-05 23:52:48,482 : Using proactor: IocpProactor
+2022-10-05 23:52:48,486 : Using proactor: IocpProactor
+2022-10-05 23:52:48,488 : Using proactor: IocpProactor
+2022-10-05 23:52:48,490 : Using proactor: IocpProactor
+2022-10-05 23:52:48,494 : Using proactor: IocpProactor
+2022-10-05 23:52:48,504 : Using proactor: IocpProactor
+2022-10-05 23:52:48,519 : Using proactor: IocpProactor
+2022-10-05 23:52:48,527 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-05 23:52:48,533 : Using proactor: IocpProactor
+2022-10-05 23:52:48,534 : Using proactor: IocpProactor
+2022-10-05 23:52:48,543 : Using proactor: IocpProactor
+2022-10-05 23:52:49,110 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-05 23:52:49,370 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-05 23:52:49,570 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-05 23:52:49,571 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-05 23:52:49,952 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-05 23:52:50,408 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-05 23:52:50,411 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-05 23:52:50,414 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-05 23:52:50,619 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-06 00:24:26,307 : Using proactor: IocpProactor
+2022-10-06 00:24:26,339 : Initialized Terminal
+2022-10-06 00:24:26,342 : Login Successful
+2022-10-06 00:24:26,364 : Using proactor: IocpProactor
+2022-10-06 00:24:26,365 : Using proactor: IocpProactor
+2022-10-06 00:24:26,366 : Using proactor: IocpProactor
+2022-10-06 00:24:26,369 : Using proactor: IocpProactor
+2022-10-06 00:24:26,375 : Using proactor: IocpProactor
+2022-10-06 00:24:26,377 : Using proactor: IocpProactor
+2022-10-06 00:24:26,384 : Using proactor: IocpProactor
+2022-10-06 00:24:26,386 : Using proactor: IocpProactor
+2022-10-06 00:24:26,397 : Using proactor: IocpProactor
+2022-10-06 00:24:26,398 : Using proactor: IocpProactor
+2022-10-06 00:24:26,609 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-06 00:24:26,832 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-06 00:24:27,041 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-06 00:24:27,044 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-06 00:24:27,296 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-06 00:24:27,711 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-06 00:24:27,922 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-06 00:24:27,923 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-06 00:24:27,926 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-06 00:24:28,128 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-06 00:25:44,319 : Using proactor: IocpProactor
+2022-10-06 00:25:44,342 : Initialized Terminal
+2022-10-06 00:25:44,344 : Login Successful
+2022-10-06 00:25:44,360 : Using proactor: IocpProactor
+2022-10-06 00:25:44,361 : Using proactor: IocpProactor
+2022-10-06 00:25:44,361 : Using proactor: IocpProactor
+2022-10-06 00:25:44,364 : Using proactor: IocpProactor
+2022-10-06 00:25:44,368 : Using proactor: IocpProactor
+2022-10-06 00:25:44,371 : Using proactor: IocpProactor
+2022-10-06 00:25:44,376 : Using proactor: IocpProactor
+2022-10-06 00:25:44,378 : Using proactor: IocpProactor
+2022-10-06 00:25:44,384 : Using proactor: IocpProactor
+2022-10-06 00:25:44,601 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-06 00:25:45,002 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-06 00:25:45,004 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-06 00:25:45,004 : Using proactor: IocpProactor
+2022-10-06 00:25:45,232 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-06 00:25:45,236 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-06 00:25:46,063 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-06 00:25:46,079 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-06 00:25:46,080 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-06 00:25:46,168 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-06 00:25:46,867 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-06 00:26:23,238 : Using proactor: IocpProactor
+2022-10-06 00:26:23,283 : Initialized Terminal
+2022-10-06 00:26:23,287 : Login Successful
+2022-10-06 00:26:23,309 : Using proactor: IocpProactor
+2022-10-06 00:26:23,311 : Using proactor: IocpProactor
+2022-10-06 00:26:23,313 : Using proactor: IocpProactor
+2022-10-06 00:26:23,317 : Using proactor: IocpProactor
+2022-10-06 00:26:23,324 : Using proactor: IocpProactor
+2022-10-06 00:26:23,360 : Using proactor: IocpProactor
+2022-10-06 00:26:23,411 : Using proactor: IocpProactor
+2022-10-06 00:26:23,654 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-06 00:26:23,694 : Using proactor: IocpProactor
+2022-10-06 00:26:23,905 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-06 00:26:24,107 : Using proactor: IocpProactor
+2022-10-06 00:26:24,109 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-06 00:26:24,120 : Using proactor: IocpProactor
+2022-10-06 00:26:24,121 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-06 00:26:24,338 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-06 00:26:24,769 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-06 00:26:24,772 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-06 00:26:24,981 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-06 00:26:24,985 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-06 00:26:25,223 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-06 00:26:49,026 : Using proactor: IocpProactor
+2022-10-06 00:26:49,046 : Initialized Terminal
+2022-10-06 00:26:49,048 : Login Successful
+2022-10-06 00:26:49,062 : Using proactor: IocpProactor
+2022-10-06 00:26:49,063 : Using proactor: IocpProactor
+2022-10-06 00:26:49,063 : Using proactor: IocpProactor
+2022-10-06 00:26:49,064 : Using proactor: IocpProactor
+2022-10-06 00:26:49,065 : Using proactor: IocpProactor
+2022-10-06 00:26:49,067 : Using proactor: IocpProactor
+2022-10-06 00:26:49,072 : Using proactor: IocpProactor
+2022-10-06 00:26:49,078 : Using proactor: IocpProactor
+2022-10-06 00:26:49,085 : Using proactor: IocpProactor
+2022-10-06 00:26:49,086 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-06 00:26:49,308 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-06 00:26:49,313 : Using proactor: IocpProactor
+2022-10-06 00:26:49,740 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-06 00:26:49,741 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-06 00:26:50,223 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-06 00:26:50,428 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index
+2022-10-06 00:26:50,636 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-06 00:26:50,863 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-06 00:26:50,868 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-06 00:26:51,113 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-06 00:29:01,459 : Using proactor: IocpProactor
+2022-10-06 00:29:01,490 : Initialized Terminal
+2022-10-06 00:29:01,493 : Login Successful
+2022-10-06 00:29:01,517 : Using proactor: IocpProactor
+2022-10-06 00:29:01,518 : Using proactor: IocpProactor
+2022-10-06 00:29:01,520 : Using proactor: IocpProactor
+2022-10-06 00:29:01,524 : Using proactor: IocpProactor
+2022-10-06 00:29:01,526 : Using proactor: IocpProactor
+2022-10-06 00:29:01,534 : Using proactor: IocpProactor
+2022-10-06 00:29:01,544 : Using proactor: IocpProactor
+2022-10-06 00:29:01,546 : Using proactor: IocpProactor
+2022-10-06 00:29:01,559 : Using proactor: IocpProactor
+2022-10-06 00:29:01,563 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 100 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 (1s) Index
+2022-10-06 00:29:01,776 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 (1s) Index
+2022-10-06 00:29:01,778 : Using proactor: IocpProactor
+2022-10-06 00:29:01,986 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 (1s) Index
+2022-10-06 00:29:02,435 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 (1s) Index
+2022-10-06 00:29:02,436 : Request executed	parameters: name: FingerTrap symbol: Volatility 25 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 25 Index
+2022-10-06 00:29:02,655 : Request executed	parameters: name: FingerTrap symbol: Volatility 75 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 Index
+2022-10-06 00:29:03,079 : Request executed	parameters: name: FingerTrap symbol: Volatility 50 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 50 Index
+2022-10-06 00:29:03,082 : Request executed	parameters: name: FingerTrap symbol: Volatility 10 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 10 Index
+2022-10-06 00:29:03,086 : Comment: Invalid stops	Parameters: name: FingerTrap symbol: Volatility 75 (1s) Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 75 (1s) Index
+2022-10-06 00:29:03,325 : Request executed	parameters: name: FingerTrap symbol: Volatility 100 Index fast_period: 8 slow_period: 34 trend_time: M30 entry_time: M5 trend: 4	symbol: Volatility 100 Index

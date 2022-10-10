@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 from sys import _getframe
@@ -12,24 +13,28 @@ class Config:
     server: str
 
     def __new__(cls, *args, **kwargs):
-        if hasattr(cls, '_instance'):
-            return cls._instance
-        cls._instance = super().__new__(cls, *args, **kwargs)
+        if not hasattr(cls, '_instance'):
+            cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, file: str = ''):
-        self.keep_logs = True
-        self.record_trades = False
-        self.executor: Literal['thread', 'process'] = 'thread'
-        self.update_trade_records = self.record_trades and True
-        self.filename = "mt5.json"
+    def __init__(self, *, file: str = "",record_trades: bool = True, filename: str = "mt5.json",
+                 executor: Literal['thread', 'process'] = "thread", track_trades: bool = True, base_dir: str | Path = "",win_percentage: float = 0.85,
+                 records_dir: str = "trade_records", records_update_time: datetime.time = datetime.time(hour=23, minute=59, second=59)):
+        self.record_trades = record_trades
+        self.track_trades = self.record_trades and track_trades
+        self.records_update_time = records_update_time
+        self.executor = executor
+        self.filename = filename
+        self.win_percentage = win_percentage
         self.file = file
+        self.base_dir = base_dir or Path.cwd()
+        self.records_dir = self.base_dir / records_dir
         self.load_json()
-        self.base: Path = Path.home()
-    
+
     def __setattr__(self, key, value):
-        if key == 'base':
+        if key == 'base_dir' or key == 'records_dir' and isinstance(value, str):
             super().__setattr__(key, Path(value))
+            return
         super().__setattr__(key, value)
 
     def find_config(self):

@@ -16,11 +16,6 @@ class Symbol(SymbolInfo):
         self.mt5 = mt5
         super().__init__(**kwargs)
 
-    async def __call__(self, name: str = "") -> Tick:
-        name = name if name else self.name
-        tick = await self.mt5.symbol_info_tick(name)
-        return Tick(**tick._asdict())
-
     def __repr__(self):
         return f"{self.name}"
 
@@ -33,9 +28,11 @@ class Symbol(SymbolInfo):
     def __hash__(self):
         return hash(self.name)
 
-    async def get_tick(self):
-        tick = await self()
-        self.set_attributes(tick=tick, **tick.dict)
+    async def get_tick(self, name: str = ""):
+        name = name if name else self.name
+        tick = await self.mt5.symbol_info_tick(name)
+        self.set_attributes(tick=tick, **tick._asdict())
+        return Tick(**tick._asdict())
 
     async def _select(self):
         self.selected = await self.mt5.symbol_select(self.name, True)
@@ -43,7 +40,7 @@ class Symbol(SymbolInfo):
     async def get_info(self):
         info = await self.mt5.symbol_info(self.name)
         if info:
-            self.set_attributes(**info.dict)
+            self.set_attributes(**info._asdict())
 
     async def init(self) -> bool:
         await self._select()

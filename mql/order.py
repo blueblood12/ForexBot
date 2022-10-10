@@ -5,7 +5,7 @@ from .core.constants import TradeAction, OrderTime, OrderFilling
 
 class Order(TradeRequest):
     action: TradeAction = TradeAction.DEAL
-    type_time: OrderTime = OrderTime.DAY
+    type_time: OrderTime = OrderTime.SPECIFIED_DAY
     type_filling: OrderFilling = OrderFilling.FOK
 
     def __init__(self, mt5=MetaTrader(), **kwargs):
@@ -13,10 +13,12 @@ class Order(TradeRequest):
         super().__init__(**kwargs)
 
     async def check(self) -> OrderCheckResult:
-        return await self.mt5.order_check(self.dict)
+        res = await self.mt5.order_check(self.dict)
+        return OrderCheckResult(**res._asdict())
 
     async def send(self) -> OrderSendResult:
-        return await self.mt5.order_send(self.dict)
+        res = await self.mt5.order_send(self.dict)
+        return OrderSendResult(**res._asdict())
 
     async def calc_margin(self) -> float | None:
         return await self.mt5.order_calc_margin(self.type, self.symbol, self.volume, self.price)

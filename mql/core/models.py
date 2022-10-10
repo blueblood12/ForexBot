@@ -247,7 +247,7 @@ class TradePosition(Base):
     time_msc: int
     time_update: int
     time_update_msc: int
-    type: PositionType
+    type: OrderType
     magic: float
     identifier: int
     reason: PositionReason
@@ -261,7 +261,6 @@ class TradePosition(Base):
     symbol: str
     comment: str
     external_id: str
-
 
 class TradeDeal(Base):
     ticket: int

@@ -1,11 +1,13 @@
 import asyncio
-# import logging
+import logging
 
 from ..traders.simple_deal_trader import DealTrader
 from ...symbol import Symbol
 from ...strategy import Strategy, Entry
 from ...core.constants import TimeFrame, OrderType
 from ...candle import Candle, Candles
+
+logger = logging.getLogger()
 
 
 class FTCandle(Candle):
@@ -71,12 +73,12 @@ class FingerTrap(Strategy):
     async def get_support(self):
         if self.entry.trend == 'uptrend':
             sup = self.prices.get_swing_low()
-            tick = await self.symbol()
+            tick = await self.symbol.get_tick()
             self.entry.points = (tick.ask - sup.low) / self.symbol.point
 
         else:
             sup = self.prices.get_swing_high()
-            tick = await self.symbol()
+            tick = await self.symbol.get_tick()
             self.entry.points = (sup.high - tick.bid) / self.symbol.point
 
     async def check_trend(self):
@@ -131,20 +133,19 @@ class FingerTrap(Strategy):
     async def trade(self):
         while True:
             try:
-                await self.confirm_trend()
-                if not self.entry.new:
-                    await asyncio.sleep(0.5)
-                    continue
-
-                if self.entry.type is None:
-                    await self.sleep(self.entry.time)
-                    continue
+                # await self.confirm_trend()
+                # if not self.entry.new:
+                #     await asyncio.sleep(0.5)
+                #     continue
+                #
+                # if self.entry.type is None:
+                #     await self.sleep(self.entry.time)
+                #     continue
 
                 await self.trader.place_trade(order=OrderType.BUY, points=50, params=self.parameters)
                 # await self.trader.place_trade(order=self.entry.type, points=self.entry.points, params=self.parameters)
                 await self.sleep(self.entry.time)
             except Exception as err:
-                # logging.error(err, extra={"symbol": self.symbol})
-                print(err, self.symbol)
+                logger.error(f"Error: {err}\t Symbol: {self.symbol}")
                 await self.sleep(self.trend_time_frame.time)
                 continue
