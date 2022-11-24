@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+    
+  mt5:
+    image: nilsonantonio/mt5:1.2
+    container_name: mt5
+    ports:
+     - 8000:8000
+
+
+  bot:
+    image: mrblow12/forexmeta:latest
+    container_name: forexbot
+    command: python3 bot.py test.py runserver
+    depends_on:
+      - mt5
+      
